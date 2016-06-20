@@ -1,0 +1,82 @@
+<xsd:schema targetNamespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:req="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:common="http://mheducation.com/Common/01">
+	<xsd:import namespace="http://mheducation.com/Common/01" schemaLocation="../../Common/Schema/Common.xsd"/>
+	<xsd:complexType name="ItemTransactionDetailType">
+		<xsd:sequence>
+			<xsd:element name="ItemNumber" type="xsd:integer"/>
+			<xsd:element name="ItemId" type="xsd:string"/>
+			<xsd:element name="Price" type="common:PriceType"/>
+			<xsd:element name="Quantity" type="xsd:integer"/>
+			<xsd:element name="ShippingAmount" type="common:PriceType" minOccurs="0"/>
+			<xsd:element name="StateTaxAmount" type="common:PriceType" minOccurs="0"/>
+			<xsd:element name="TaxExemptIndicator" type="common:LogicalIndicatorType" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrderDetails1Type">
+		<xsd:sequence>
+			<xsd:element name="PurchaseOrderNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="OrderDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="SubTotal" type="common:PriceType" minOccurs="0"/>
+			<xsd:element name="Total" type="common:PriceType"/>
+			<xsd:element name="ShippingAmount" type="common:PriceType" minOccurs="0"/>
+			<xsd:element name="StateTaxAmount" type="common:PriceType" minOccurs="0"/>
+			<xsd:element name="TaxExemptIndicator" type="common:LogicalIndicatorType" minOccurs="0"/>
+			<xsd:element name="OrderItem" type="req:ItemTransactionDetailType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MerchantInfoType">
+		<xsd:sequence>
+			<xsd:element name="ClientId" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="UserName" type="xsd:string"/>
+			<xsd:element name="Password" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="CreditCardTransactionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PreAuth"/>
+			<xsd:enumeration value="Auth"/>
+			<xsd:enumeration value="Payment"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="FraudAnalysisType">
+		<xsd:sequence>
+		         <!-- <xsd:element name="FraudScoreIndicator" type="xsd:integer" default="2" minOccurs="0"/>
+			<xsd:element name="RulesTrigger" type="common:LogicalIndicatorType" default="Y" minOccurs="0"/>  -->
+			<xsd:element name="OrderSource" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="KaptchaSessionID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="WebsiteShortName" type="xsd:string" minOccurs="0"/>
+			
+                                           <!-- <xsd:element name="KttVersionNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="KttDataLength" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:pattern value="[0-9][0-9][0-9][0-9]"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>			
+			</xsd:element>
+			<xsd:element name="KttDataString" type="xsd:string" minOccurs="0"/>  -->
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="CreditCardRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element name="PaymentGateway" type="common:PaymentGatewayType"/>
+					<xsd:element name="OrderCountryCode" type="common:CountryCode"/>
+				</xsd:choice>
+				<xsd:element name="MerchantInfo" type="req:MerchantInfoType" minOccurs="0"/>
+				<xsd:element name="OrderId" type="xsd:string"/>
+				<xsd:element name="PaymentGatewayTransactionId" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="AuthCode" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="TransactionType" type="req:CreditCardTransactionType"/>
+				<xsd:element name="CustomerBillingInfo" type="common:CustomerInfoType" minOccurs="0"/>
+				<xsd:element name="CustomerShippingInfo" type="common:CustomerInfoType" minOccurs="0"/>
+				<xsd:element name="CardDetails" type="common:CardDetailsType"/>
+				<xsd:element name="OrderDetails" type="req:OrderDetailsType"/>
+				<xsd:element name="FraudAnalysis" type="req:FraudAnalysisType" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

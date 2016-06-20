@@ -1,0 +1,48 @@
+<xsd:schema targetNamespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:res="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:common="http://mheducation.com/Common/01">
+	<xsd:import namespace="http://mheducation.com/Common/01" schemaLocation="../../Common/Schema/Common.xsd"/>
+	<xsd:simpleType name="AuthCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z0-9 ])*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="CreditCardResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="OrderCountryCode" type="common:CountryCode" minOccurs="0"/>
+				<xsd:element name="OrderId" type="xsd:string"/>
+				<xsd:element name="ResponseStatus" type="common:ResponseStatusType"/>
+				<xsd:element name="CreditCardDetails" type="res:CreCardDetailsType" minOccurs="0"/>
+				<xsd:element name="Amount" type="common:PriceType"/>
+				<xsd:element name="AuthCode" type="res:AuthCode" minOccurs="0"/>
+				<xsd:element name="FraudDetection" type="res:FraudDetectionType" minOccurs="0"/>
+				<xsd:element name="PaymentGatewayInfo" type="res:PaymentGatewayInfoType" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="PaymentGatewayInfoType">
+		<xsd:sequence>
+			<xsd:element name="PaymentGateway" type="common:PaymentGatewayType" minOccurs="0"/>
+			<xsd:element name="TransactionId" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TransactionStatusCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TransactionStatusMessage" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TransactionStatusDetail" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Mode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="StartTime" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="EndTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FraudDetectionType">
+		<xsd:sequence>
+			<xsd:element name="CVVResponse" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AVSResponse" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Policy" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CreCardDetailsType">
+		<xsd:sequence>
+			<xsd:element name="CreditCardType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CreditCardIssueCountryCode" type="common:CountryCode" minOccurs="0"/>
+			<xsd:element name="CreditCardIssuingBank" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

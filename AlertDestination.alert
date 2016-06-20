@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment>
+  <aler:description xsi:nil="true" xmlns:aler="http://www.bea.com/wli/monitoring/alert" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+  <aler:AlertToConsole xmlns:aler="http://www.bea.com/wli/monitoring/alert">true</aler:AlertToConsole>
+  <aler:AlertToReportingDataSet xmlns:aler="http://www.bea.com/wli/monitoring/alert">true</aler:AlertToReportingDataSet>
+  <aler:AlertToSNMP xmlns:aler="http://www.bea.com/wli/monitoring/alert">false</aler:AlertToSNMP>
+  <aler:Destinations type="email" xmlns:aler="http://www.bea.com/wli/monitoring/alert">
+    <aler:config xsi:type="ema:EmailActionProviderConfiguration" xmlns:ema="http://www.bea.com/wli/monitoring/alert/action/email" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <ema:transport-end-point-config>
+        <ema:config xsi:type="tran:EndPointConfiguration" xmlns:tran="http://www.bea.com/wli/sb/transports">
+          <tran:provider-id>email</tran:provider-id>
+          <tran:inbound>false</tran:inbound>
+          <tran:URI>
+            <env:value xmlns:env="http://www.bea.com/wli/config/env">mailto:monalisa.mahato@mheducation.com</env:value>
+          </tran:URI>
+          <tran:provider-specific>
+            <ema1:outbound-properties xmlns:ema1="http://www.bea.com/wli/sb/transports/email">
+              <ema1:smtp-resource ref="System/SMTP Servers/SMTPServer"/>
+              <ema1:connection-timeout>0</ema1:connection-timeout>
+              <ema1:timeout>0</ema1:timeout>
+              <ema1:from-address>SafeTech@mheducation.com</ema1:from-address>
+              <ema1:from-name>SafeTech DEV1</ema1:from-name>
+              <ema1:reply-to-address/>
+              <ema1:reply-to-name/>
+              <ema1:mail-session-jndiname/>
+            </ema1:outbound-properties>
+            <ema1:request-encoding xmlns:ema1="http://www.bea.com/wli/sb/transports/email">iso-8859-1</ema1:request-encoding>
+          </tran:provider-specific>
+        </ema:config>
+      </ema:transport-end-point-config>
+    </aler:config>
+  </aler:Destinations>
+  <aler:Destinations type="email" xmlns:aler="http://www.bea.com/wli/monitoring/alert">
+    <aler:config xsi:type="ema:EmailActionProviderConfiguration" xmlns:ema="http://www.bea.com/wli/monitoring/alert/action/email" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <ema:transport-end-point-config>
+        <ema:config xsi:type="tran:EndPointConfiguration" xmlns:tran="http://www.bea.com/wli/sb/transports">
+          <tran:provider-id>email</tran:provider-id>
+          <tran:inbound>false</tran:inbound>
+          <tran:URI>
+            <env:value xmlns:env="http://www.bea.com/wli/config/env">mailto:mohibullah.khan@mheducation.com</env:value>
+          </tran:URI>
+          <tran:provider-specific>
+            <ema1:outbound-properties xmlns:ema1="http://www.bea.com/wli/sb/transports/email">
+              <ema1:smtp-resource ref="System/SMTP Servers/SMTPServer"/>
+              <ema1:connection-timeout>0</ema1:connection-timeout>
+              <ema1:timeout>0</ema1:timeout>
+              <ema1:from-address>SafeTech@mheducation.com</ema1:from-address>
+              <ema1:from-name>SafeTech DEV1</ema1:from-name>
+              <ema1:reply-to-address/>
+              <ema1:reply-to-name/>
+              <ema1:mail-session-jndiname/>
+            </ema1:outbound-properties>
+            <ema1:request-encoding xmlns:ema1="http://www.bea.com/wli/sb/transports/email">iso-8859-1</ema1:request-encoding>
+          </tran:provider-specific>
+        </ema:config>
+      </ema:transport-end-point-config>
+    </aler:config>
+  </aler:Destinations>
+</xml-fragment>

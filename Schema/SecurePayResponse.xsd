@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="SecurePayMessage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="MessageInfo"/>
+				<xs:element ref="MerchantInfo"/>
+				<xs:element ref="RequestType"/>
+				<xs:element ref="Status"/>
+				<xs:element ref="Payment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="messageID"/>
+				<xs:element ref="messageTimestamp"/>
+				<xs:element ref="apiVersion"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MerchantInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="merchantID"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RequestType">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="Status">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="statusCode"/>
+				<xs:element ref="statusDescription"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Payment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TxnList"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="messageID">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="messageTimestamp">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="apiVersion">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="merchantID">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="statusCode">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="statusDescription">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="TxnList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Txn" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="count" use="required" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Txn">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="txnType"/>
+				<xs:element ref="txnSource"/>
+				<xs:element ref="amount"/>
+				<xs:element ref="currency"/>
+				<xs:element ref="purchaseOrderNo"/>
+				<xs:element ref="approved"/>
+				<xs:element ref="responseCode"/>
+				<xs:element ref="responseText"/>
+				<xs:element ref="settlementDate"/>
+				<xs:element ref="txnID"/>
+				<xs:element ref="preauthID" minOccurs="0"/>
+				<xs:element ref="CreditCardInfo"/>
+			</xs:sequence>
+			<xs:attribute name="ID" use="required" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="txnType">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="txnSource">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="amount">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="currency">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="purchaseOrderNo">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="approved">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="responseCode">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="responseText">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="settlementDate">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="txnID">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="preauthID">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="CreditCardInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pan"/>
+				<xs:element ref="expiryDate" minOccurs="0"/>
+				<xs:element ref="cardType" minOccurs="0"/>
+				<xs:element ref="cardDescription" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DirectEntryInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="bsbNumber"/>
+				<xs:element ref="accountNumber"/>
+				<xs:element ref="accountName"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pan">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="expiryDate">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="cardType">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="cardDescription">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="bsbNumber">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="accountNumber">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="accountName">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+</xs:schema>

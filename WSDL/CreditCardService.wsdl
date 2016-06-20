@@ -1,0 +1,113 @@
+<definitions targetNamespace="http://mheducation.com/CreditCardService/01" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:req="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:res="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:tns="http://mheducation.com/CreditCardService/01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:svcdoc="http://xmlns.oracle.com/Services/Documentation/V1" xmlns:common="http://mheducation.com/Common/01">
+	<documentation><svcdoc:Service>
+	<svcdoc:Description>Credit Card Authorization WSDL</svcdoc:Description>
+	<svcdoc:ServiceType>Web Service</svcdoc:ServiceType>
+	<svcdoc:DisplayName>CCAuthorization</svcdoc:DisplayName>
+	<svcdoc:Version>1.00</svcdoc:Version>
+	<svcdoc:LifecycleStatus>Active</svcdoc:LifecycleStatus>
+	<svcdoc:ImplementationTechnology>OSB</svcdoc:ImplementationTechnology>
+</svcdoc:Service></documentation>
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" schemaLocation="../Schema/CreditCardRequest.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" schemaLocation="../Schema/CreditCardResponse.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://mheducation.com/Common/01" schemaLocation="../../Common/Schema/Common.xsd"/>
+		</schema>
+	</types>
+	<message name="CreditCardRequest">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the Credit Card Request payload to the CreditCardRequest operation</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="parameters" element="req:CreditCardRequest"/>
+	</message>
+	<message name="CreditCardResponse">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the Credit Card Response payload to the CreditCardResponse operation</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="parameters" element="res:CreditCardResponse"/>
+	</message>
+	<message name="GUID">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the request GUID</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="GUID" element="common:GUID"/>
+	</message>
+	<message name="RequesterGUID">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the RequesterGUID to be provided by the client</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="RequesterGUID" element="common:RequesterGUID"/>
+	</message>
+	<message name="ESP_SERVICE_CLIENT">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the request ESP_SERVICE_CLIENT</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="ESP_SERVICE_CLIENT" element="common:ESP_SERVICE_CLIENT"/>
+	</message>
+	<message name="StartTime">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the request StartTime</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="StartTime" element="common:StartTime"/>
+	</message>
+	<message name="EndTime">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the response EndTime</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="EndTime" element="common:EndTime"/>
+	</message>
+	<message name="RequestMode">
+		<documentation><svcdoc:Message>
+	<svcdoc:Description>This message is used as the mode of the request i.e Test or Prod</svcdoc:Description>
+</svcdoc:Message></documentation>
+		<part name="RequestMode" element="common:RequestMode"/>
+	</message>
+	<portType name="CreditCardPortType">
+		<documentation><svcdoc:Interface>
+	<svcdoc:Description>This interface contains operations for the Request-Response</svcdoc:Description>
+	<svcdoc:DisplayName>CCAuthorizationPortType</svcdoc:DisplayName>
+	<svcdoc:LifecycleStatus>Active</svcdoc:LifecycleStatus>
+</svcdoc:Interface></documentation>
+		<operation name="CreditCardRequest">
+			<documentation><svcdoc:Operation>
+	<svcdoc:Description>This operation is used by OSB to authorize Credit Card requests.</svcdoc:Description>
+	<svcdoc:MEP>Request-Response</svcdoc:MEP>
+	<svcdoc:DisplayName>CreditCard</svcdoc:DisplayName>
+	<svcdoc:LifecycleStatus>Active</svcdoc:LifecycleStatus>
+	<svcdoc:Scope>Public</svcdoc:Scope>
+</svcdoc:Operation></documentation>
+			<input message="tns:CreditCardRequest"/>
+			<output message="tns:CreditCardResponse"/>
+		</operation>
+	</portType>
+	<binding name="CreditCardBinding" type="tns:CreditCardPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="CreditCardRequest">
+			<soap:operation soapAction="http://mheducation.com/CreditCardService/CreditCardRequest" style="document"/>
+			<input>
+				<soap:header message="tns:RequesterGUID" part="RequesterGUID" use="literal"/>
+				<soap:header message="tns:ESP_SERVICE_CLIENT" part="ESP_SERVICE_CLIENT" use="literal"/>
+				<soap:header message="tns:RequestMode" part="RequestMode" use="literal"/>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:header message="tns:GUID" part="GUID" use="literal"/>
+				<soap:header message="tns:RequesterGUID" part="RequesterGUID" use="literal"/>
+				<soap:header message="tns:ESP_SERVICE_CLIENT" part="ESP_SERVICE_CLIENT" use="literal"/>
+				<soap:header message="tns:StartTime" part="StartTime" use="literal"/>
+				<soap:header message="tns:EndTime" part="EndTime" use="literal"/>
+				<soap:header message="tns:RequestMode" part="RequestMode" use="literal"/>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="CreditCardService">
+		<port name="CreditCardPort" binding="tns:CreditCardBinding">
+			<soap:address location="No Target Adress"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,1735 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://mheducation.com/ClearCommerceRequest/01" targetNamespace="http://mheducation.com/ClearCommerceRequest/01" elementFormDefault="qualified">
+	<xs:element name="DocVersion">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContentType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="User">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Name"/>
+				<xs:element ref="tns:Password"/>
+				<xs:element ref="tns:ClientId"/>
+				<xs:element ref="tns:EffectiveClientId" minOccurs="0"/>
+				<xs:element ref="tns:Alias" minOccurs="0"/>
+				<xs:element ref="tns:EffectiveAlias" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ClientId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EffectiveClientId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Name">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Password">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Alias">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EffectiveAlias">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DocumentId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderFormDoc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Mode"/>
+				<xs:element ref="tns:Comments" minOccurs="0"/>
+				<xs:element ref="tns:Consumer"/>
+				<xs:element ref="tns:DateTime" minOccurs="0"/>
+				<xs:element ref="tns:Id" minOccurs="0"/>
+				<xs:element ref="tns:FinalOrderValue" minOccurs="0"/>
+				<xs:element ref="tns:FraudInfo" minOccurs="0"/>
+				<xs:element ref="tns:GroupId" minOccurs="0"/>
+				<xs:element ref="tns:OptionList" minOccurs="0"/>
+				<xs:element ref="tns:OrderItemList" minOccurs="0"/>
+				<xs:element ref="tns:OrderOptions" minOccurs="0"/>
+				<xs:element ref="tns:Overview" minOccurs="0"/>
+				<xs:element ref="tns:PbOrder" minOccurs="0"/>
+				<xs:element ref="tns:ShippingInfo" minOccurs="0"/>
+				<xs:element ref="tns:Transaction"/>
+				<xs:element ref="tns:UserId" minOccurs="0"/>
+				<xs:element ref="tns:Supplier" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EngineDoc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:ContentType"/>
+				<xs:element ref="tns:DocumentId" minOccurs="0"/>
+				<xs:element ref="tns:IPAddress" minOccurs="0"/>
+				<xs:element ref="tns:Overview" minOccurs="0"/>
+				<xs:element ref="tns:User"/>
+				<xs:element ref="tns:Instructions"/>
+				<xs:element ref="tns:OrderFormDoc"/>
+				<xs:element ref="tns:MessageList" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TimeIn">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IPAddress">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderItemList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:OrderItem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Qty"/>
+				<xs:element ref="tns:ItemNumber"/>
+				<xs:element ref="tns:AltTax" minOccurs="0"/>
+				<xs:element ref="tns:BuyerProductCode" minOccurs="0"/>
+				<xs:element ref="tns:BuyerProductDesc" minOccurs="0"/>
+				<xs:element ref="tns:CommCode" minOccurs="0"/>
+				<xs:element ref="tns:CommDesc" minOccurs="0"/>
+				<xs:element ref="tns:Desc" minOccurs="0"/>
+				<xs:element ref="tns:DiscAmt" minOccurs="0"/>
+				<xs:element ref="tns:DiscPercent" minOccurs="0"/>
+				<xs:element ref="tns:DutyTax" minOccurs="0"/>
+				<xs:element ref="tns:GrossNetIndicator" minOccurs="0"/>
+				<xs:element ref="tns:Id" minOccurs="0"/>
+				<xs:element ref="tns:OptionList" minOccurs="0"/>
+				<xs:element ref="tns:PoItemNumber" minOccurs="0"/>
+				<xs:element ref="tns:Price" minOccurs="0"/>
+				<xs:element ref="tns:PricePreDisc" minOccurs="0"/>
+				<xs:element ref="tns:ProductCode" minOccurs="0"/>
+				<xs:element ref="tns:Ship" minOccurs="0"/>
+				<xs:element ref="tns:StateTax" minOccurs="0"/>
+				<xs:element ref="tns:SubTotal" minOccurs="0"/>
+				<xs:element ref="tns:TaxExempt" minOccurs="0"/>
+				<xs:element ref="tns:TaxList" minOccurs="0"/>
+				<xs:element ref="tns:TaxRate" minOccurs="0"/>
+				<xs:element ref="tns:TaxType" minOccurs="0"/>
+				<xs:element ref="tns:Total" minOccurs="0"/>
+				<xs:element ref="tns:UnitMeasure" minOccurs="0"/>
+				<xs:element ref="tns:VaShipAmt" minOccurs="0"/>
+				<xs:element ref="tns:VaShipRate" minOccurs="0"/>
+				<xs:element ref="tns:VatPercent" minOccurs="0"/>
+				<xs:element ref="tns:VatTax" minOccurs="0"/>
+				<xs:element ref="tns:Weight" minOccurs="0"/>
+				<xs:element ref="tns:QtyNumeric" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderOptions">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="tns:Option"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OptionList">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="tns:Option"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Option">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Key"/>
+				<xs:element ref="tns:Value"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Tax"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Tax">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:TaxFunction"/>
+				<xs:element ref="tns:TaxType"/>
+				<xs:element ref="tns:TaxCategory"/>
+				<xs:element ref="tns:TaxPercent"/>
+				<xs:element ref="tns:TaxableAmt" minOccurs="0"/>
+				<xs:element ref="tns:TaxAmt" minOccurs="0"/>
+				<xs:element ref="tns:LineItemTotals" minOccurs="0"/>
+				<xs:element ref="tns:QtyDisc" minOccurs="0"/>
+				<xs:element ref="tns:SubTotalAfterQtyValueDisc" minOccurs="0"/>
+				<xs:element ref="tns:ValueDisc" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PbOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:OrderFrequencyCycle" minOccurs="0"/>
+				<xs:element ref="tns:OrderFrequencyInterval" minOccurs="0"/>
+				<xs:element ref="tns:OrderType"/>
+				<xs:element ref="tns:TotalNumberOfPayments" minOccurs="0"/>
+				<xs:element ref="tns:StartDate" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TotalNumberOfPayments">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Ship">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StateTax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TimeOut">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EngineDocList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:DocVersion"/>
+				<xs:element ref="tns:EngineDoc" maxOccurs="unbounded"/>
+				<xs:element ref="tns:TimeIn" minOccurs="0"/>
+				<xs:element ref="tns:TimeOut" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Instructions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Pipeline" minOccurs="0"/>
+				<xs:element ref="tns:RoutingList" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pipeline">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Routing">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Name"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RoutingList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Routing"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShippingInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:CarrierNumber" minOccurs="0"/>
+				<xs:element ref="tns:Carrier" minOccurs="0"/>
+				<xs:element ref="tns:ShipFrom" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShipFrom">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Location"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Totals">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AltTax" minOccurs="0"/>
+				<xs:element ref="tns:DiscAmt" minOccurs="0"/>
+				<xs:element ref="tns:DutyTax" minOccurs="0"/>
+				<xs:element ref="tns:StateTax" minOccurs="0"/>
+				<xs:element ref="tns:VatTax" minOccurs="0"/>
+				<xs:element ref="tns:Ship" minOccurs="0"/>
+				<xs:element ref="tns:SubTotal" minOccurs="0"/>
+				<xs:element ref="tns:Total"/>
+				<xs:element ref="tns:VaPct" minOccurs="0"/>
+				<xs:element ref="tns:VaShipAmt" minOccurs="0"/>
+				<xs:element ref="tns:VaShipRate" minOccurs="0"/>
+				<xs:element ref="tns:LineItemTotals" minOccurs="0"/>
+				<xs:element ref="tns:QtyDisc" minOccurs="0"/>
+				<xs:element ref="tns:SubTotalAfterQtyValueDisc" minOccurs="0"/>
+				<xs:element ref="tns:ValueDisc" minOccurs="0"/>
+				<xs:element ref="tns:RequestedTotal" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CurrentTotals">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="tns:Totals"/>
+				<xs:element ref="tns:TaxList"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaymentMech">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Type"/>
+				<xs:choice>
+					<xs:element ref="tns:CreditCard"/>
+					<xs:element ref="tns:Check"/>
+					<xs:element ref="tns:PayPal"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Transaction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AuthCode" minOccurs="0"/>
+				<xs:element ref="tns:AuthMethod" minOccurs="0"/>
+				<xs:element ref="tns:AuthSrcCode" minOccurs="0"/>
+				<xs:element ref="tns:BatchProcessor" minOccurs="0"/>
+				<xs:element ref="tns:BillPaymentFlag" minOccurs="0"/>
+				<xs:element ref="tns:BuyerCode" minOccurs="0"/>
+				<xs:element ref="tns:CardholderPresentCode" minOccurs="0"/>
+				<xs:element ref="tns:CardProcRequest" minOccurs="0"/>
+				<xs:element ref="tns:CardProcResp" minOccurs="0"/>
+				<xs:element ref="tns:ChargeBackCode" minOccurs="0"/>
+				<xs:element ref="tns:ChargeBackCodeNormalized" minOccurs="0"/>
+				<xs:element ref="tns:ChargeDesc1" minOccurs="0"/>
+				<xs:element ref="tns:ChargeDesc2" minOccurs="0"/>
+				<xs:element ref="tns:ChargeDesc3" minOccurs="0"/>
+				<xs:element ref="tns:ChargeDesc4" minOccurs="0"/>
+				<xs:element ref="tns:ChargeTypeCode" minOccurs="0"/>
+				<xs:element ref="tns:ClientId" minOccurs="0"/>
+				<xs:element ref="tns:CommCode" minOccurs="0"/>
+				<xs:element ref="tns:ConfigId" minOccurs="0"/>
+				<xs:element ref="tns:CurrentTotals" minOccurs="0"/>
+				<xs:element ref="tns:Id" minOccurs="0"/>
+				<xs:element ref="tns:InputEnvironment" minOccurs="0"/>
+				<xs:element ref="tns:InvNumber" minOccurs="0"/>
+				<xs:element ref="tns:NewHostRefNum" minOccurs="0"/>
+				<xs:element ref="tns:PaperDraftFlag" minOccurs="0"/>
+				<xs:element ref="tns:PayerAuthenticationCode" minOccurs="0"/>
+				<xs:element ref="tns:PayerTxnId" minOccurs="0"/>
+				<xs:element ref="tns:PayerSecurityLevel" minOccurs="0"/>
+				<xs:element ref="tns:PaymentNumber" minOccurs="0"/>
+				<xs:element ref="tns:PbAdviceCode" minOccurs="0"/>
+				<xs:element ref="tns:PerformHostFraudCheck" minOccurs="0"/>
+				<xs:element ref="tns:PoNumber" minOccurs="0"/>
+				<xs:element ref="tns:Processor" minOccurs="0"/>
+				<xs:element ref="tns:ReviewPendFlag" minOccurs="0"/>
+				<xs:element ref="tns:ReviewPendingAction" minOccurs="0"/>
+				<xs:element ref="tns:SecurityIndicator" minOccurs="0"/>
+				<xs:element ref="tns:SendAavPlusFlag" minOccurs="0"/>
+				<xs:element ref="tns:SendPbAvsData" minOccurs="0"/>
+				<xs:element ref="tns:SettleId" minOccurs="0"/>
+				<xs:element ref="tns:SettleProcessor" minOccurs="0"/>
+				<xs:element ref="tns:TaxExempt" minOccurs="0"/>
+				<xs:element ref="tns:TerminalInputCapability" minOccurs="0"/>
+				<xs:element ref="tns:TotalNumberPayments" minOccurs="0"/>
+				<xs:element ref="tns:TransSrcCode" minOccurs="0"/>
+				<xs:element ref="tns:TxnAdj" minOccurs="0"/>
+				<xs:element ref="tns:Type" minOccurs="0"/>
+				<xs:element ref="tns:DiscTreatment" minOccurs="0"/>
+				<xs:element ref="tns:InvDate" minOccurs="0"/>
+				<xs:element ref="tns:InvTreatment" minOccurs="0"/>
+				<xs:element ref="tns:PoNumberDate" minOccurs="0"/>
+				<xs:element ref="tns:TaxPointDate" minOccurs="0"/>
+				<xs:element ref="tns:TaxTreatment" minOccurs="0"/>
+				<xs:element ref="tns:TerminalInputMethod" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Supplier">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Location"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CardProcResp">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AvsDisplay" minOccurs="0"/>
+				<xs:element ref="tns:AvsRespCode" minOccurs="0"/>
+				<xs:element ref="tns:CcErrCode"/>
+				<xs:element ref="tns:CcReturnMsg" minOccurs="0"/>
+				<xs:element ref="tns:CommercialCardType" minOccurs="0"/>
+				<xs:element ref="tns:CpsAciCode" minOccurs="0"/>
+				<xs:element ref="tns:CpsMsiCode" minOccurs="0"/>
+				<xs:element ref="tns:CpsValCode" minOccurs="0"/>
+				<xs:element ref="tns:Cvv2Resp" minOccurs="0"/>
+				<xs:element ref="tns:ExchangeRateResp" minOccurs="0"/>
+				<xs:element ref="tns:FeeAmtResp" minOccurs="0"/>
+				<xs:element ref="tns:GrossAmtResp" minOccurs="0"/>
+				<xs:element ref="tns:HostRefNum" minOccurs="0"/>
+				<xs:element ref="tns:IcpBankNet" minOccurs="0"/>
+				<xs:element ref="tns:IcpCpsPosCode" minOccurs="0"/>
+				<xs:element ref="tns:IcpCpsTxnId" minOccurs="0"/>
+				<xs:element ref="tns:PayerAuthenticationResultCode" minOccurs="0"/>
+				<xs:element ref="tns:PaymentTypeResp" minOccurs="0"/>
+				<xs:element ref="tns:ProcAvsRespCode" minOccurs="0"/>
+				<xs:element ref="tns:ProcReturnCode" minOccurs="0"/>
+				<xs:element ref="tns:ProcReturnMsg" minOccurs="0"/>
+				<xs:element ref="tns:SettleAmtResp" minOccurs="0"/>
+				<xs:element ref="tns:Status" minOccurs="0"/>
+				<xs:element ref="tns:TaxAmtResp" minOccurs="0"/>
+				<xs:element ref="tns:Time" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CardProcRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AccountNumber" minOccurs="0"/>
+				<xs:element ref="tns:AuthIdentifier" minOccurs="0"/>
+				<xs:element ref="tns:CaptureReference" minOccurs="0"/>
+				<xs:element ref="tns:CardAcceptorId" minOccurs="0"/>
+				<xs:element ref="tns:CardType" minOccurs="0"/>
+				<xs:element ref="tns:NewTransactionId" minOccurs="0"/>
+				<xs:element ref="tns:PayerAuthenticationResultCode" minOccurs="0"/>
+				<xs:element ref="tns:PosConditionCode" minOccurs="0"/>
+				<xs:element ref="tns:PosEntryMode" minOccurs="0"/>
+				<xs:element ref="tns:ProcessingCode" minOccurs="0"/>
+				<xs:element ref="tns:TerminalId" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Check">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AccountNumber" minOccurs="0"/>
+				<xs:element ref="tns:AccountType" minOccurs="0"/>
+				<xs:element ref="tns:AuthType" minOccurs="0"/>
+				<xs:element ref="tns:CheckNumber" minOccurs="0"/>
+				<xs:element ref="tns:CheckType" minOccurs="0"/>
+				<xs:element ref="tns:RoutingAccountNumber" minOccurs="0"/>
+				<xs:element ref="tns:RoutingNumber" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AccountType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PerformHostFraudCheck">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CheckNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CheckType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExchangeRateResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FeeAmtResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GrossAmtResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaymentTypeResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SettleAmtResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxAmtResp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayPal">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AddressStatus" minOccurs="0"/>
+				<xs:element ref="tns:Location" minOccurs="0"/>
+				<xs:element ref="tns:Payer" minOccurs="0"/>
+				<xs:element ref="tns:PayerBusiness" minOccurs="0"/>
+				<xs:element ref="tns:PayerCountry" minOccurs="0"/>
+				<xs:element ref="tns:PayerFirstName" minOccurs="0"/>
+				<xs:element ref="tns:PayerId" minOccurs="0"/>
+				<xs:element ref="tns:PayerLastName" minOccurs="0"/>
+				<xs:element ref="tns:PayerStatus" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddressStatus">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Payer">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerBusiness">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerCountry">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerFirstName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerLastName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerStatus">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProcReturnMsg">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Consumer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:BillTo" minOccurs="0"/>
+				<xs:element ref="tns:BirthDate" minOccurs="0"/>
+				<xs:element ref="tns:CostCenter" minOccurs="0"/>
+				<xs:element ref="tns:DriversLicense" minOccurs="0"/>
+				<xs:element ref="tns:Email" minOccurs="0"/>
+				<xs:element ref="tns:FedTaxId" minOccurs="0"/>
+				<xs:element ref="tns:PaymentMech"/>
+				<xs:element ref="tns:RepeatCustomerFlag" minOccurs="0"/>
+				<xs:element ref="tns:ReferenceOrderId" minOccurs="0"/>
+				<xs:element ref="tns:ReferenceTransId" minOccurs="0"/>
+				<xs:element ref="tns:ShipToSameAsBillToFlag" minOccurs="0"/>
+				<xs:element ref="tns:ShipTo" minOccurs="0"/>
+				<xs:element ref="tns:SocialSecurityNumber" minOccurs="0"/>
+				<xs:element ref="tns:TaxIdCountry" minOccurs="0"/>
+				<xs:element ref="tns:CustomerAni" minOccurs="0"/>
+				<xs:element ref="tns:CustomerAniInfold" minOccurs="0"/>
+				<xs:element ref="tns:CustomerHostName" minOccurs="0"/>
+				<xs:element ref="tns:HttpBrowserType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DriversLicense">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:IssuingStateProv"/>
+				<xs:element ref="tns:LicenseNumber"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CreditCard">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Cvv2Indicator" minOccurs="0"/>
+				<xs:element ref="tns:Cvv2Val" minOccurs="0"/>
+				<xs:element ref="tns:Expires"/>
+				<xs:element ref="tns:IssueNum" minOccurs="0"/>
+				<xs:element ref="tns:Number"/>
+				<xs:element ref="tns:StartDate" minOccurs="0"/>
+				<xs:element ref="tns:Track1" minOccurs="0"/>
+				<xs:element ref="tns:Track2" minOccurs="0"/>
+				<xs:element ref="tns:Type" minOccurs="0"/>
+				<xs:element ref="tns:ExchangeType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BillTo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Location" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShipTo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Location" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Location">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Email" minOccurs="0"/>
+				<xs:element ref="tns:Id" minOccurs="0"/>
+				<xs:element ref="tns:TelFax" minOccurs="0"/>
+				<xs:element ref="tns:TelVoice" minOccurs="0"/>
+				<xs:element ref="tns:Url" minOccurs="0"/>
+				<xs:element ref="tns:Address" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Address">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="0">
+					<xs:element ref="tns:Name"/>
+					<xs:sequence>
+						<xs:element ref="tns:FirstName" minOccurs="0"/>
+						<xs:element ref="tns:LastName" minOccurs="0"/>
+					</xs:sequence>
+				</xs:choice>
+				<xs:element ref="tns:Company" minOccurs="0"/>
+				<xs:element ref="tns:Street1" minOccurs="0"/>
+				<xs:element ref="tns:Street2" minOccurs="0"/>
+				<xs:element ref="tns:Street3" minOccurs="0"/>
+				<xs:element ref="tns:City" minOccurs="0"/>
+				<xs:element ref="tns:StateProv" minOccurs="0"/>
+				<xs:element ref="tns:Title" minOccurs="0"/>
+				<xs:element ref="tns:PostalCode" minOccurs="0"/>
+				<xs:element ref="tns:Country" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:AdvisedAction"/>
+				<xs:element ref="tns:Audience"/>
+				<xs:element ref="tns:Component"/>
+				<xs:element ref="tns:ContextId"/>
+				<xs:element ref="tns:DataState"/>
+				<xs:element ref="tns:FileLine"/>
+				<xs:element ref="tns:FileTime"/>
+				<xs:element ref="tns:ResourceId"/>
+				<xs:element ref="tns:Sev"/>
+				<xs:element ref="tns:Text"/>
+				<xs:element ref="tns:FileName"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AdvisedAction">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Audience">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Component">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContextId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CostCenter">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataState">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FileLine">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FileName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FileTime">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FinalOrderValue">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferenceOrderId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferenceTransId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResourceId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Sev">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Text">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MaxSev">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:MaxSev"/>
+				<xs:element ref="tns:Message" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:FraudConfidence" minOccurs="0"/>
+				<xs:element ref="tns:FraudResult" minOccurs="0"/>
+				<xs:element ref="tns:FraudResultCode"/>
+				<xs:element ref="tns:TotalScore"/>
+				<xs:element ref="tns:Alerts" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Alerts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Action"/>
+				<xs:element ref="tns:Message"/>
+				<xs:element ref="tns:ProcessCode"/>
+				<xs:element ref="tns:RuleId"/>
+				<xs:element ref="tns:Weight" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Overview">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:DateTime"/>
+				<xs:element ref="tns:AuthCode" minOccurs="0"/>
+				<xs:element ref="tns:AvsDisplay" minOccurs="0"/>
+				<xs:element ref="tns:CcErrCode" minOccurs="0"/>
+				<xs:element ref="tns:CcReturnMsg" minOccurs="0"/>
+				<xs:element ref="tns:Cvv2Resp" minOccurs="0"/>
+				<xs:element ref="tns:FraudWeight" minOccurs="0"/>
+				<xs:element ref="tns:FraudConfidence" minOccurs="0"/>
+				<xs:element ref="tns:FraudRules" minOccurs="0"/>
+				<xs:element ref="tns:FraudStatus" minOccurs="0"/>
+				<xs:element ref="tns:Notice" minOccurs="0"/>
+				<xs:element ref="tns:OrderId"/>
+				<xs:element ref="tns:TransactionId"/>
+				<xs:element ref="tns:TransactionStatus"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudRules">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudStatus">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Notice">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TransactionStatus">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudWeight">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TransactionId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" default="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Comments">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DateTime">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GroupId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Mode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UserId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Carrier">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CarrierNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudConfidence">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudResult">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FraudResultCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TotalScore">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RuleId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Action">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProcessCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Weight">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BirthDate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="StartDate" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Email">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FedTaxId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RepeatCustomerFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShipToSameAsBillToFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SocialSecurityNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxIdCountry">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomerAni">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomerAniInfold">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomerHostName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HttpBrowserType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IssuingStateProv">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LicenseNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AccountNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RoutingAccountNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RoutingNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Cvv2Indicator">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Cvv2Val">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Expires">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="ExpirationDate" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IssueNum">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Number">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartDate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="StartDate" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Track1">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Track2">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Type">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExchangeType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Id">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TelFax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TelVoice">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Url">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="City">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Company">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Country">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FirstName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LastName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PostalCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StateProv">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Street1">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Street2">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Street3">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Title">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Desc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiscAmt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GrossNetIndicator">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ItemNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Price">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProductCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Qty">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="QtyNumeric">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" use="required" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxExempt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxRate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Total">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UnitMeasure">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VaShipAmt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VaShipRate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VatPercent">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VatTax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WeightNumeric">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" use="required" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Key">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Value">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxableAmt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxAmt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LineItemTotals">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="QtyDisc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubTotalAfterQtyValueDisc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValueDisc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RequestedTotal">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxCategory">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxFunction">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxPercent">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AvsDisplay">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CcErrCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CcReturnMsg">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Cvv2Resp">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderFrequencyCycle">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderFrequencyInterval">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TotalNumberPayments">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthMethod">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthSrcCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BatchProcessor">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BillPaymentFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuyerCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CardholderPresentCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeBackCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeBackCodeNormalized">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeDesc1">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeDesc2">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeDesc3">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeDesc4">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChargeTypeCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConfigId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InputEnvironment">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InvNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaperDraftFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerAuthenticationCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerTxnId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerSecurityLevel">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaymentNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PbAdviceCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PerfromHostFraudCheck">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PoNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Processor">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReviewPendFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReviewPendingAction">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SecurityIndicator">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SendAavPlusFlag">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SendPbAvsData">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SettleId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SettleProcessor">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TerminalInputCapability">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TerminalInputMethod">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TransSrcCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TxnAdj">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiscTreatment">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InvDate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InvTreatment">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PoNumberDate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxPointDate">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Date" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxTreatment">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthIdentifier">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CaptureReference">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CardAcceptorId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CardType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NewTransactionId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PayerAuthenticationResultCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PosConditionCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PosEntryMode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProcessingCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TerminalId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AvsRespCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommercialCardType">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CpsAciCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CpsMsiCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CpsValCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HostRefNum">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IcpBankNet">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IcpCpsPosCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IcpCpsTxnId">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProcAvsRespCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProcReturnCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Status">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Time">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="DateTime" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AltTax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuyerProductCode">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuyerProductDesc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommDesc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiscPercent">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DutyTax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PoItemNumber">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="S32" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PricePreDisc">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubTotal">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Money" type="xs:anySimpleType"/>
+			<xs:attribute name="Currency" default="840" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VaPct">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="Numeric" type="xs:anySimpleType"/>
+			<xs:attribute name="Precision" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VatTaxMoney">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NewHostRefNum">
+		<xs:complexType mixed="true">
+			<xs:attribute name="DataType" fixed="String" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

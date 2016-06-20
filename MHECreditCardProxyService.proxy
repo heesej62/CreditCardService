@@ -1,0 +1,2274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/services/security/config" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isAutoPublish="false" isTracingEnabled="false">
+    <ser:description/>
+    <ser:security>
+      <con1:inboundWss processWssHeader="true"/>
+    </ser:security>
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
+      <con4:wsdl ref="MHEducation/CreditCardService/WSDL/CreditCardService"/>
+      <con4:binding>
+        <con4:name>CreditCardBinding</con4:name>
+        <con4:namespace>http://mheducation.com/CreditCardService/01</con4:namespace>
+      </con4:binding>
+      <con4:selector type="SOAP body"/>
+      <con4:WSI-compliant>false</con4:WSI-compliant>
+    </ser:binding>
+    <ser:monitoring isEnabled="true">
+      <ser:aggregationInterval>2</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Action</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>service-policy-bindings</ser:binding-mode>
+      <ser:policies>
+        <ser:operation name="CreditCardRequest">
+          <ser:request-policy>
+            <ser:predefined-policy>Auth.xml</ser:predefined-policy>
+          </ser:request-policy>
+        </ser:operation>
+      </ser:policies>
+    </ser:ws-policy>
+    <ser:throttling enabled="false">
+      <ser:capacity>0</ser:capacity>
+      <ser:maxQueueLength>0</ser:maxQueueLength>
+      <ser:timeToLive>0</ser:timeToLive>
+    </ser:throttling>
+    <ser:messageTracing enabled="false">
+      <ser:detailsLevel>Terse</ser:detailsLevel>
+      <ser:maxSize>8192</ser:maxSize>
+    </ser:messageTracing>
+    <ser:pageAttachments isEnabled="false"/>
+    <ser:transactions isRequired="false" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/CreditCardService/MHECreditCardProxyService</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+    <tran:provider-specific xsi:type="http:HttpEndPointConfiguration">
+      <http:inbound-properties>
+        <http:use-https>true</http:use-https>
+      </http:inbound-properties>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-392531981810077828--1d0309e9.1273e6a767a.-7ffc">
+    <con4:pipeline name="PipelinePairNodeSecurePay_response" type="response">
+      <con4:stage name="LogGatewayOutput">
+        <con4:comment>Logs the request XML being sent from the payment gateway</con4:comment>
+        <con4:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:assign varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2a</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e29</con:id>
+            <con2:location>
+              <con:xpathText>./SecurePayMessage/Payment/TxnList/Txn/CreditCardInfo</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con3:log>
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e28</con:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryText>$LoggableMessage</con:xqueryText>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con4:actions>
+      </con4:stage>
+      <con4:stage name="AssignResponseStatusCode">
+        <con4:comment>ResponseStatusCode is assigned to a variable.</con4:comment>
+        <con4:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con:assign varName="ResponseStatusCode" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e21</con1:id>
+            <con:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">for $Status in $SecurePayVar/ResponseStatus/Status
+where 
+(($Status/@statusCode=xs:string(data($body/SecurePayMessage/Status/statusCode)))
+and 
+($Status/@responseCode=xs:string(data($body/SecurePayMessage/Payment/TxnList/Txn/responseCode))))
+return data($Status)</con:xqueryText>
+            </con:expr>
+          </con:assign>
+          <con:ifThenElse xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e20</con1:id>
+            <con:case>
+              <con:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($ResponseStatusCode) = 0</con:xqueryText>
+              </con:condition>
+              <con:actions>
+                <con:assign varName="ResponseStatusCode">
+                  <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e1f</con1:id>
+                  <con:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'Failure'</con:xqueryText>
+                  </con:expr>
+                </con:assign>
+              </con:actions>
+            </con:case>
+          </con:ifThenElse>
+        </con4:actions>
+      </con4:stage>
+      <con:stage name="OutputTransformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Response from SecurePay is transformed to service supported Response structure.</con:comment>
+        <con:context>
+          <con5:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e1e</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/SecurePayResponseToOutput"/>
+                <con:param name="amount">
+                  <con:path>$amount</con:path>
+                </con:param>
+                <con:param name="PaymentGateway">
+                  <con:path>$PaymentGateway</con:path>
+                </con:param>
+                <con:param name="orderCountryCode">
+                  <con:path>$orderCountryCode</con:path>
+                </con:param>
+                <con:param name="currencyCode">
+                  <con:path>$currencyCode</con:path>
+                </con:param>
+                <con:param name="commonDataMapPropertiesFile">
+                  <con:path>$CommonDataMapVar</con:path>
+                </con:param>
+                <con:param name="securePayMessage">
+                  <con:path>$body/SecurePayMessage</con:path>
+                </con:param>
+                <con:param name="SecurePayPropertiesFile">
+                  <con:path>$SecurePayVar</con:path>
+                </con:param>
+                <con:param name="responseStatusCode">
+                  <con:path>$ResponseStatusCode</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNode_request" type="request">
+      <con:stage name="AssignHeader" xmlns:con2="http://www.bea.com/wli/sb/pipeline/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Assigns the value of GUID, RequesterGUID, ESP_SERVICE_CLIENT, StartTime and RequestMode of Header in variables</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="InputStartTime" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f11</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:current-dateTime()</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="GUID" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f10</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn-bea:uuid()</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con3:assign varName="InputReqGUID">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f0f</con4:id>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$header/ns1:RequesterGUID</con:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:assign varName="InputServiceClient">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f0e</con4:id>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$header/ns1:ESP_SERVICE_CLIENT</con:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:assign varName="RequestMode">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f0d</con4:id>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$header/ns1:RequestMode</con:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:ifThenElse>
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f0b</con4:id>
+            <con3:case>
+              <con3:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($RequestMode)=0</con:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:assign varName="RequestMode">
+                  <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7f0a</con4:id>
+                  <con3:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'Prod'</con:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+              </con3:actions>
+            </con3:case>
+          </con3:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="ValidateInputRequest" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>RequestMode is checked and depending upon it the input is validated.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ef3</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($header/ns1:RequestMode)</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:validate>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ef2</con2:id>
+                  <con1:schema ref="MHEducation/Common/Schema/Common"/>
+                  <con1:schemaElement xmlns:ns="http://mheducation.com/Common/01">ns:RequestMode</con1:schemaElement>
+                  <con1:varName>header</con1:varName>
+                  <con1:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns1:RequestMode</con:xpathText>
+                  </con1:location>
+                  <con1:resultVarName/>
+                </con1:validate>
+              </con1:actions>
+            </con1:case>
+          </con1:ifThenElse>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ef1</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$header/ns1:RequestMode = 'Test'</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:replace varName="body" contents-only="true">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ef0</con2:id>
+                  <con1:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                  </con1:location>
+                  <con1:expr>
+                    <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                      <con:resource ref="MHEducation/CreditCardService/XQuery/TestResponse"/>
+                    </con:xqueryTransform>
+                  </con1:expr>
+                </con1:replace>
+                <con1:replace varName="header" contents-only="true">
+                  <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eef</con4:id>
+                  <con1:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                  </con1:location>
+                  <con1:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:RequestMode xmlns:m="http://mheducation.com/Common/01">{data($RequestMode)}&lt;/m:RequestMode></con:xqueryText>
+                  </con1:expr>
+                </con1:replace>
+                <con3:insert varName="header" xmlns:con2="http://www.bea.com/wli/sb/services/security/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eee</con2:id>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:EndTime xmlns:m="http://mheducation.com/Common/01">{data(fn:current-dateTime())}&lt;/m:EndTime></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="header" xmlns:con2="http://www.bea.com/wli/sb/services/security/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eed</con2:id>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:StartTime xmlns:m="http://mheducation.com/Common/01">{data($InputStartTime)}&lt;/m:StartTime></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="header" xmlns:con2="http://www.bea.com/wli/sb/services/security/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eec</con2:id>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:ESP_SERVICE_CLIENT xmlns:m="http://mheducation.com/Common/01">{data($InputServiceClient)}&lt;/m:ESP_SERVICE_CLIENT></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="header" xmlns:con2="http://www.bea.com/wli/sb/services/security/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eeb</con2:id>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:RequesterGUID xmlns:m="http://mheducation.com/Common/01">{data($InputReqGUID)}&lt;/m:RequesterGUID></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con1:insert varName="header">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eea</con2:id>
+                  <con1:where>first-child</con1:where>
+                  <con1:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:GUID xmlns:m="http://mheducation.com/Common/01">{data($GUID)}&lt;/m:GUID></con:xqueryText>
+                  </con1:expr>
+                </con1:insert>
+                <con2:reply isError="false" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                  <con2:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ee9</con2:id>
+                </con2:reply>
+              </con1:actions>
+            </con1:case>
+            <con1:default>
+              <con1:validate>
+                <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ee8</con2:id>
+                <con1:schema ref="MHEducation/CreditCardService/Schema/CreditCardRequest"/>
+                <con1:schemaElement xmlns:ns="http://mheducation.com/CreditCardService/CreditCardRequest/01">ns:CreditCardRequest</con1:schemaElement>
+                <con1:varName>body</con1:varName>
+                <con1:location>
+                  <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns:CreditCardRequest</con:xpathText>
+                </con1:location>
+                <con1:resultVarName/>
+              </con1:validate>
+            </con1:default>
+          </con1:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="LogRequest" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Request sent to the service is logged, without credit card information.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardService/V2_0/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con3:log>
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ee7</con4:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/RequestLog"/>
+                <con:param name="creditCardRequest">
+                  <con:path>$body/ns:CreditCardRequest</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con:actions>
+      </con:stage>
+      <con:stage name="RemoveEmptyElements" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>If there is any empty node present in the request sent, then it is removed by the xquery.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:replace varName="body" contents-only="true">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d70</con4:id>
+            <con2:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con2:location>
+            <con2:expr>
+              <con:xsltTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/Xsl/RemoveEmptyNode"/>
+                <con:input>$body/ns:CreditCardRequest</con:input>
+              </con:xsltTransform>
+            </con2:expr>
+          </con2:replace>
+        </con:actions>
+      </con:stage>
+      <con:stage name="DecidePaymentGateway" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Depending upon the OrderCountryCode, the payment gateway is decided.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:assign varName="CreditCardTypeVar">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d73</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/CreditCardTypeConfig"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="CommonDataMapVar">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d72</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/CommonDataMap"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="Total">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-977767551422054558-5ee8956b.149ce26cc4c.-7f9c</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderDetails/Total)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7edf</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($body/ns:CreditCardRequest/PaymentGateway) = 0</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:assign varName="PaymentGateway">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ede</con2:id>
+                  <con1:expr>
+                    <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                      <con:resource ref="MHEducation/CreditCardService/XQuery/CreditCardXquery"/>
+                      <con:param name="commonDataMapProperties">
+                        <con:path>$CommonDataMapVar</con:path>
+                      </con:param>
+                      <con:param name="countryCode">
+                        <con:path>fn:string($body/ns:CreditCardRequest/OrderCountryCode)</con:path>
+                      </con:param>
+                    </con:xqueryTransform>
+                  </con1:expr>
+                </con1:assign>
+                <con1:assign varName="OrderCountryVar">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d82</con5:id>
+                  <con1:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderCountryCode)</con:xqueryText>
+                  </con1:expr>
+                </con1:assign>
+                <con1:ifThenElse>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7edd</con2:id>
+                  <con1:case>
+                    <con1:condition>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($PaymentGateway) = 0</con:xqueryText>
+                    </con1:condition>
+                    <con1:actions>
+                      <con1:Error>
+                        <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7edc</con2:id>
+                        <con1:errCode>CREDITCARD_ERR_001</con1:errCode>
+                        <con1:message>Passed country code is not supported in the service.</con1:message>
+                      </con1:Error>
+                    </con1:actions>
+                  </con1:case>
+                </con1:ifThenElse>
+              </con1:actions>
+            </con1:case>
+            <con1:default>
+              <con1:assign varName="PaymentGateway">
+                <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7edb</con2:id>
+                <con1:expr>
+                  <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/PaymentGateway)</con:xqueryText>
+                </con1:expr>
+              </con1:assign>
+              <con1:ifThenElse>
+                <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d81</con5:id>
+                <con1:case>
+                  <con1:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($PaymentGateway)='PaymentTechUS' or data($PaymentGateway)='ClearCommerceUS'</con:xqueryText>
+                  </con1:condition>
+                  <con1:actions>
+                    <con1:assign varName="OrderCountryVar">
+                      <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d80</con2:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'US'</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                  </con1:actions>
+                </con1:case>
+                <con1:case>
+                  <con1:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($PaymentGateway)='PaymentTechCA' or data($PaymentGateway)='ClearCommerceCA'</con:xqueryText>
+                  </con1:condition>
+                  <con1:actions>
+                    <con1:assign varName="OrderCountryVar">
+                      <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d7f</con2:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'CA'</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                  </con1:actions>
+                </con1:case>
+              </con1:ifThenElse>
+            </con1:default>
+          </con1:ifThenElse>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eda</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($PaymentGateway)='PaymentTechCA' or data($PaymentGateway)='ClearCommerceCA'</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="PaymentGateway">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ed9</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'PaymentTech'</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d9a</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:starts-with($PaymentGateway, 'Datacash')</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="DataCashGateway">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d99</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$PaymentGateway</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+                <con2:assign varName="PaymentGateway">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d98</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'Datacash'</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="ValidateCreditCardInformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Validation for Expiry date, incorrect length/checksum for the card is done in this stage.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7cb0</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">xs:int(fn:year-from-date(fn:current-date() - xdt:dayTimeDuration('P1D'))) > xs:int(fn:concat('20',$body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CardExpYear))</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:Error>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7caf</con2:id>
+                  <con1:errCode>CREDITCARD_ERR_005</con1:errCode>
+                  <con1:message>Given credit card expiration date is from the past.</con1:message>
+                </con1:Error>
+              </con1:actions>
+            </con1:case>
+            <con1:default>
+              <con1:ifThenElse>
+                <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7cae</con2:id>
+                <con1:case>
+                  <con1:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">xs:int(fn:year-from-date(fn:current-date() - xdt:dayTimeDuration('P1D'))) = xs:int(fn:concat('20',$body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CardExpYear)) and xs:int(fn:month-from-date(fn:current-date() - xdt:dayTimeDuration('P1D'))) > xs:int($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CardExpMonth)</con:xqueryText>
+                  </con1:condition>
+                  <con1:actions>
+                    <con1:Error>
+                      <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7cad</con2:id>
+                      <con1:errCode>CREDITCARD_ERR_005</con1:errCode>
+                      <con1:message>Given credit card expiration date is from the past.</con1:message>
+                    </con1:Error>
+                  </con1:actions>
+                </con1:case>
+              </con1:ifThenElse>
+            </con1:default>
+          </con1:ifThenElse>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7cac</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CreditCardType) != 0</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:assign varName="creditCardElement">
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7cab</con2:id>
+                  <con1:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">for $x in $CreditCardTypeVar/CreditCard
+    return 
+           let $pattern:= data($x/Pattern)
+           return
+           if (not(fn:compare($x/@type,fn:string($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CreditCardType))))
+              then $x
+           else ()</con:xqueryText>
+                  </con1:expr>
+                </con1:assign>
+                <con1:assign varName="prefixCheckEnabled">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7caa</con5:id>
+                  <con1:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($CreditCardTypeVar/PrefixCheckEnabled)</con:xqueryText>
+                  </con1:expr>
+                </con1:assign>
+                <con1:ifThenElse>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca9</con2:id>
+                  <con1:case>
+                    <con1:condition>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($creditCardElement/Pattern) = 0</con:xqueryText>
+                    </con1:condition>
+                    <con1:actions>
+                      <con2:skip xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                        <con2:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca8</con2:id>
+                      </con2:skip>
+                    </con1:actions>
+                  </con1:case>
+                  <con1:default>
+                    <con1:assign varName="cardNumber">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca7</con5:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CreditCardNumber)</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="length">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca6</con5:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Length)</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="algo">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca5</con5:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Algorithm)</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="pattern">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca4</con5:id>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Pattern)</con:xqueryText>
+                      </con1:expr>
+                    </con1:assign>
+                    <con1:javaCallout varName="isCreditCardValid">
+                      <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca3</con2:id>
+                      <con1:location/>
+                      <con1:archive ref="MHEducation/CreditCardService/JAR/MHECreditCardValidation"/>
+                      <con1:className>cctypevalidation.MHECreditCardValidation</con1:className>
+                      <con1:method>public static boolean validateCreditCard(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)</con1:method>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/CreditCardNumber)</con:xqueryText>
+                      </con1:expr>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Length)</con:xqueryText>
+                      </con1:expr>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Algorithm)</con:xqueryText>
+                      </con1:expr>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string($creditCardElement/Pattern)</con:xqueryText>
+                      </con1:expr>
+                      <con1:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$prefixCheckEnabled</con:xqueryText>
+                      </con1:expr>
+                      <con1:return-param-as-ref>false</con1:return-param-as-ref>
+                    </con1:javaCallout>
+                    <con1:ifThenElse>
+                      <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca2</con2:id>
+                      <con1:case>
+                        <con1:condition>
+                          <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$isCreditCardValid = 'false'</con:xqueryText>
+                        </con1:condition>
+                        <con1:actions>
+                          <con1:Error>
+                            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ca1</con2:id>
+                            <con1:errCode>CREDITCARD_ERR_003</con1:errCode>
+                            <con1:message>Credit card validation failed due to incorrect card type/ length/ checksum.</con1:message>
+                          </con1:Error>
+                        </con1:actions>
+                      </con1:case>
+                    </con1:ifThenElse>
+                  </con1:default>
+                </con1:ifThenElse>
+              </con1:actions>
+            </con1:case>
+          </con1:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignAmountAndCurrency" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Amount and Currency values in the request are assigned to the variables.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="amount" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ec8</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderDetails/Total)</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con:assign varName="currencyCode" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d3a</con1:id>
+            <con:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderDetails/Total/@CurrencyCode)</con:xqueryText>
+            </con:expr>
+          </con:assign>
+        </con:actions>
+      </con:stage>
+      <con5:stage name="AssignInputOrderId" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+        <con5:comment>Assign OrderId of the request</con5:comment>
+        <con5:context>
+          <con:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01"/>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con5:context>
+        <con5:actions>
+          <con:assign varName="OrderId" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7ec5</con1:id>
+            <con:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderId)</con:xqueryText>
+            </con:expr>
+          </con:assign>
+          <con2:assign varName="retryTrace">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d77</con:id>
+            <con2:expr>
+              <con:xqueryText>fn:tokenize(data($OrderId), '\D+')</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+        </con5:actions>
+      </con5:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNodeDatacash_request" type="request">
+      <con:stage name="SecurityCodeValidation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Validation for SecurityCode is done, as its mandatory for Datacash.</con:comment>
+        <con:context>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e49</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($body/ns:CreditCardRequest/CardDetails/CreditCardDetails/SecurityCode) = 0</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:Error>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e48</con2:id>
+                  <con1:errCode>CREDITCARD_ERR_006</con1:errCode>
+                  <con1:message>CVV security code is not provided for data cash resquests.</con1:message>
+                </con1:Error>
+              </con1:actions>
+            </con1:case>
+          </con1:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignCountryCode" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>OrderCountryCode ia assigned to a variable.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:assign varName="DatacashVar">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d75</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/DatacashConfig"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d36</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/ns:CreditCardRequest/OrderCountryCode)</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="orderCountryCode">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d35</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderCountryCode)</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+            <con2:default>
+              <con2:assign varName="orderCountryCode">
+                <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d34</con5:id>
+                <con2:expr>
+                  <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                </con2:expr>
+              </con2:assign>
+            </con2:default>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignUsernamePassword" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Datacash service account username and password is assigned to the variables.</con:comment>
+        <con:context>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d97</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($InputServiceClient)='INTL_UK'</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="Username">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d96</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DatacashINTLServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+                <con2:assign varName="Password">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d95</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DatacashINTLServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+            <con2:default>
+              <con2:ifThenElse>
+                <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d94</con5:id>
+                <con2:case>
+                  <con2:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:ends-with(data($DataCashGateway),'APAC')</con:xqueryText>
+                  </con2:condition>
+                  <con2:actions>
+                    <con2:assign varName="Username">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d93</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashAPACServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:assign varName="Password">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d92</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashAPACServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:replace varName="body" contents-only="true">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d91</con5:id>
+                      <con2:location>
+                        <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                      </con2:location>
+                      <con2:expr>
+                        <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                          <con:resource ref="MHEducation/CreditCardService/XQuery/InputToDatacashRequestv2"/>
+                          <con:param name="countryGatewayMappingFile">
+                            <con:path>$CommonDataMapVar</con:path>
+                          </con:param>
+                          <con:param name="datacashPropertiesFile">
+                            <con:path>$DatacashVar</con:path>
+                          </con:param>
+                          <con:param name="creditCardRequest">
+                            <con:path>$body/ns:CreditCardRequest</con:path>
+                          </con:param>
+                          <con:param name="Password">
+                            <con:path>$Password</con:path>
+                          </con:param>
+                          <con:param name="Username">
+                            <con:path>$Username</con:path>
+                          </con:param>
+                        </con:xqueryTransform>
+                      </con2:expr>
+                    </con2:replace>
+                  </con2:actions>
+                </con2:case>
+                <con2:case>
+                  <con2:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:ends-with(data($DataCashGateway),'ES')</con:xqueryText>
+                  </con2:condition>
+                  <con2:actions>
+                    <con2:assign varName="Username">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d8f</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashESServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:assign varName="Password">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d8c</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashESServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:replace varName="body" contents-only="true">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d8b</con5:id>
+                      <con2:location>
+                        <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                      </con2:location>
+                      <con2:expr>
+                        <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                          <con:resource ref="MHEducation/CreditCardService/XQuery/InputToDatacashRequest"/>
+                          <con:param name="countryGatewayMappingFile">
+                            <con:path>$CommonDataMapVar</con:path>
+                          </con:param>
+                          <con:param name="datacashPropertiesFile">
+                            <con:path>$DatacashVar</con:path>
+                          </con:param>
+                          <con:param name="creditCardRequest">
+                            <con:path>$body/ns:CreditCardRequest</con:path>
+                          </con:param>
+                          <con:param name="Password">
+                            <con:path>$Password</con:path>
+                          </con:param>
+                          <con:param name="Username">
+                            <con:path>$Username</con:path>
+                          </con:param>
+                        </con:xqueryTransform>
+                      </con2:expr>
+                    </con2:replace>
+                  </con2:actions>
+                </con2:case>
+                <con2:case>
+                  <con2:condition>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:ends-with(data($DataCashGateway),'IN')</con:xqueryText>
+                  </con2:condition>
+                  <con2:actions>
+                    <con2:assign varName="Username">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3660963169090089202-76fcc790.14a57c9031d.-7f87</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashINServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:assign varName="Password">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3660963169090089202-76fcc790.14a57c9031d.-7f86</con5:id>
+                      <con2:expr>
+                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DataCashINServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:replace varName="body" contents-only="true">
+                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3660963169090089202-76fcc790.14a57c9031d.-7f85</con5:id>
+                      <con2:location>
+                        <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                      </con2:location>
+                      <con2:expr>
+                        <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                          <con:resource ref="MHEducation/CreditCardService/XQuery/InputToDatacashRequest"/>
+                          <con:param name="countryGatewayMappingFile">
+                            <con:path>$CommonDataMapVar</con:path>
+                          </con:param>
+                          <con:param name="datacashPropertiesFile">
+                            <con:path>$DatacashVar</con:path>
+                          </con:param>
+                          <con:param name="creditCardRequest">
+                            <con:path>$body/ns:CreditCardRequest</con:path>
+                          </con:param>
+                          <con:param name="Password">
+                            <con:path>$Password</con:path>
+                          </con:param>
+                          <con:param name="Username">
+                            <con:path>$Username</con:path>
+                          </con:param>
+                        </con:xqueryTransform>
+                      </con2:expr>
+                    </con2:replace>
+                  </con2:actions>
+                </con2:case>
+                <con2:default>
+                  <con2:assign varName="Username">
+                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d8a</con5:id>
+                    <con2:expr>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DatacashServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+                    </con2:expr>
+                  </con2:assign>
+                  <con2:assign varName="Password">
+                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d89</con5:id>
+                    <con2:expr>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/DatacashServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+                    </con2:expr>
+                  </con2:assign>
+                  <con2:replace varName="body" contents-only="true">
+                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d88</con5:id>
+                    <con2:location>
+                      <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+                    </con2:location>
+                    <con2:expr>
+                      <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                        <con:resource ref="MHEducation/CreditCardService/XQuery/InputToDatacashRequest"/>
+                        <con:param name="countryGatewayMappingFile">
+                          <con:path>$CommonDataMapVar</con:path>
+                        </con:param>
+                        <con:param name="datacashPropertiesFile">
+                          <con:path>$DatacashVar</con:path>
+                        </con:param>
+                        <con:param name="creditCardRequest">
+                          <con:path>$body/ns:CreditCardRequest</con:path>
+                        </con:param>
+                        <con:param name="Password">
+                          <con:path>$Password</con:path>
+                        </con:param>
+                        <con:param name="Username">
+                          <con:path>$Username</con:path>
+                        </con:param>
+                      </con:xqueryTransform>
+                    </con2:expr>
+                  </con2:replace>
+                </con2:default>
+              </con2:ifThenElse>
+            </con2:default>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con4:stage name="LogGatewayInput">
+        <con4:comment>Logs the request XML being sent to the payment gateway</con4:comment>
+        <con4:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:assign varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e44</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e43</con:id>
+            <con2:location>
+              <con:xpathText>./Request/Transaction/CardTxn/Card/pan</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e42</con:id>
+            <con2:location>
+              <con:xpathText>./Request/Transaction/CardTxn/Card/expirydate</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e41</con:id>
+            <con2:location>
+              <con:xpathText>./Request/Transaction/CardTxn/Card/startdate</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e40</con:id>
+            <con2:location>
+              <con:xpathText>./Request/Transaction/CardTxn/Card/Cv2Avs/cv2</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3f</con:id>
+            <con2:location>
+              <con:xpathText>./Request/Transaction/CardTxn/Card/issuenumber</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con3:log>
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3e</con:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryText>$LoggableMessage</con:xqueryText>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNodeDatacash_response" type="response">
+      <con4:stage name="LogGatewayOutput">
+        <con4:comment>Logs the request XML being sent from the payment gateway</con4:comment>
+        <con4:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:assign varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3a</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e39</con:id>
+            <con2:location>
+              <con:xpathText>./Response/CardTxn</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con3:log>
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e38</con:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryText>$LoggableMessage</con:xqueryText>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con4:actions>
+      </con4:stage>
+      <con:stage name="OutputTransformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Response from Datacash is transformed to service supported response structure.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e37</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/DatacashResponseToOutput"/>
+                <con:param name="response">
+                  <con:path>$body/Response</con:path>
+                </con:param>
+                <con:param name="amount">
+                  <con:path>$amount</con:path>
+                </con:param>
+                <con:param name="PaymentGateway">
+                  <con:path>$PaymentGateway</con:path>
+                </con:param>
+                <con:param name="orderCountryCode">
+                  <con:path>$orderCountryCode</con:path>
+                </con:param>
+                <con:param name="countryGatewayMappingFile">
+                  <con:path>$CommonDataMapVar</con:path>
+                </con:param>
+                <con:param name="currencyCode">
+                  <con:path>$currencyCode</con:path>
+                </con:param>
+                <con:param name="datacashPropertiesFile">
+                  <con:path>$DatacashVar</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNode1_response" type="response"/>
+    <con4:pipeline name="PipelinePairNode_response" type="response">
+      <con4:stage name="AssignOrderIdAndAmount">
+        <con:comment xmlns:con="http://www.bea.com/wli/sb/pipeline/config">Assign OrderId, if the gateway doesn't returns the OrderId</con:comment>
+        <con:context xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+          <con5:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e5e</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($body/ns2:CreditCardResponse/OrderId)=0</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:replace varName="body" contents-only="true">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e5d</con5:id>
+                  <con2:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns2:CreditCardResponse/OrderId</con:xpathText>
+                  </con2:location>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($OrderId)</con:xqueryText>
+                  </con2:expr>
+                </con2:replace>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e5c</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($body/ns2:CreditCardResponse/Amount)=0</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:replace varName="body" contents-only="false">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e5b</con5:id>
+                  <con2:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns2:CreditCardResponse/Amount</con:xpathText>
+                  </con2:location>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;Amount CurrencyCode="{data($currencyCode)}">{data($amount)}&lt;/Amount></con:xqueryText>
+                  </con2:expr>
+                </con2:replace>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+        </con:actions>
+      </con4:stage>
+      <con:stage name="LogResponse" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Response to be sent is logged.</con:comment>
+        <con:context>
+          <con5:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con3:log>
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e5a</con4:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/ResponseLog"/>
+                <con:param name="creditCardResponse">
+                  <con:path>$body/ns2:CreditCardResponse</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignOutputHeader" xmlns:con2="http://www.bea.com/wli/sb/pipeline/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>EndDate along with other header is assigned to the output header.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con:insert varName="header" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e59</con1:id>
+            <con:where>first-child</con:where>
+            <con:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:RequestMode xmlns:m="http://mheducation.com/Common/01">
+{
+data($RequestMode)
+}
+&lt;/m:RequestMode></con:xqueryText>
+            </con:expr>
+          </con:insert>
+          <con3:insert varName="header">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e58</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:EndTime xmlns:m="http://mheducation.com/Common/01">{data(fn:current-dateTime())}&lt;/m:EndTime></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con1:insert varName="header" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e57</con2:id>
+            <con1:where>first-child</con1:where>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:StartTime xmlns:m="http://mheducation.com/Common/01">{data($InputStartTime)}&lt;/m:StartTime></con:xqueryText>
+            </con1:expr>
+          </con1:insert>
+          <con3:insert varName="header">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e56</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:ESP_SERVICE_CLIENT xmlns:m="http://mheducation.com/Common/01">{data($InputServiceClient)}&lt;/m:ESP_SERVICE_CLIENT></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con3:insert varName="header">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e55</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:RequesterGUID xmlns:m="http://mheducation.com/Common/01">{data($InputReqGUID)}&lt;/m:RequesterGUID></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con3:insert varName="header">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e54</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:GUID xmlns:m="http://mheducation.com/Common/01">{data($GUID)}&lt;/m:GUID></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+        </con:actions>
+      </con:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNode1_request" type="request">
+      <con4:stage name="Stage1">
+        <con4:comment/>
+        <con4:context>
+          <con:userNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:userNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:userNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+          <con:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con1:Error xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5479308978139883223--212e5a60.154198c55ff.-7fbc</con2:id>
+            <con1:errCode>CREDITCARD_ERR_001</con1:errCode>
+            <con1:message>Passed country code is not supported in the service.</con1:message>
+          </con1:Error>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
+    <con4:pipeline name="PipelinePairNodeSecurePay_request" type="request">
+      <con:stage name="AssignCountryCode" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>OrderCountryCode if present is assigned to variable.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:assign varName="SecurePayVar">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d74</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/SecurePayConfig"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d39</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/ns:CreditCardRequest/OrderCountryCode)</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="orderCountryCode">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d38</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderCountryCode)</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+            <con2:default>
+              <con2:assign varName="orderCountryCode">
+                <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d37</con5:id>
+                <con2:expr>
+                  <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                </con2:expr>
+              </con2:assign>
+            </con2:default>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignUsernamePassword" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>SecurePay service account username and password is assigned to variables.</con:comment>
+        <con:context>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con:assign varName="Username" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con1:id xmlns:con1="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e33</con1:id>
+            <con:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/SecurePayServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+            </con:expr>
+          </con:assign>
+          <con1:assign varName="Password" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e32</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/SecurePayServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+      <con:stage name="InputTransformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Request is transformed to SecurePay supported input structure.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e31</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/InputToSecurePayRequest"/>
+                <con:param name="creditCardRequest">
+                  <con:path>$body/ns:CreditCardRequest</con:path>
+                </con:param>
+                <con:param name="Password">
+                  <con:path>$Password</con:path>
+                </con:param>
+                <con:param name="Username">
+                  <con:path>$Username</con:path>
+                </con:param>
+                <con:param name="commonDataMapPropertiesFile">
+                  <con:path>$CommonDataMapVar</con:path>
+                </con:param>
+                <con:param name="SecurePayPropertiesFile">
+                  <con:path>$SecurePayVar</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+      <con4:stage name="LogGatewayInput">
+        <con4:comment>Logs the request XML being sent to the payment gateway</con4:comment>
+        <con4:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:assign varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e30</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:delete varName="LoggableMessage">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2f</con:id>
+            <con2:location>
+              <con:xpathText>./SecurePayMessage/Payment/TxnList/Txn/CreditCardInfo</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con3:log>
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2e</con:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryText>$LoggableMessage</con:xqueryText>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
+    <con4:pipeline name="_onErrorHandler-392531981810077828--1d0309e9.1273e6a767a.-7ffc" type="error">
+      <con2:stage name="ServiceErrorHandler" xmlns:con2="http://www.bea.com/wli/sb/pipeline/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+        <con2:context>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con2:context>
+        <con2:actions>
+          <con3:ifThenElse>
+            <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe1</con:id>
+            <con3:case>
+              <con3:condition>
+                <con:xqueryText>data($fault/ctx:errorCode) = 'BEA-382505' or data($fault/ctx:errorCode) = 'CREDITCARD_ERR_001' or data($fault/ctx:errorCode) = 'CREDITCARD_ERR_003' or data($fault/ctx:errorCode) = 'CREDITCARD_ERR_004' or data($fault/ctx:errorCode) = 'CREDITCARD_ERR_005' or data($fault/ctx:errorCode) = 'CREDITCARD_ERR_006' or data($fault/ctx:errorCode)='CREDITCARD_ERR_003'</con:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:replace varName="body" contents-only="true">
+                  <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe0</con:id>
+                  <con3:location>
+                    <con:xpathText>.</con:xpathText>
+                  </con3:location>
+                  <con3:expr>
+                    <con:xqueryText>&lt;soap-env:Fault>&lt;faultstring>{ concat($fault/ctx:errorCode,': ',$fault/ctx:reason) }&lt;/faultstring>&lt;/soap-env:Fault></con:xqueryText>
+                  </con3:expr>
+                </con3:replace>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fdf</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;faultcode>soapenv:Client&lt;/faultcode></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d2f</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>last-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;detail>{ $fault } &lt;/detail></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+              </con3:actions>
+            </con3:case>
+            <con3:case>
+              <con3:condition>
+                <con:xqueryText>data($fault/ctx:errorCode) = 'BEA-386201'</con:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:replace varName="body" contents-only="true">
+                  <con:id>_ActionId-728851256416875245-113e0475.127604de41c.-7fc9</con:id>
+                  <con3:location>
+                    <con:xpathText>.</con:xpathText>
+                  </con3:location>
+                  <con3:expr>
+                    <con:xqueryText>&lt;soap-env:Fault>&lt;faultstring>{ concat('AUTH_ERR_001',': ',$fault/ctx:reason) }&lt;/faultstring>&lt;/soap-env:Fault></con:xqueryText>
+                  </con3:expr>
+                </con3:replace>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-728851256416875245-113e0475.127604de41c.-7fc8</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;faultcode>soapenv:Client&lt;/faultcode></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d2e</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>last-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;detail>{ $fault } &lt;/detail></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+              </con3:actions>
+            </con3:case>
+            <con3:case>
+              <con3:condition>
+                <con:xqueryText>data($fault/ctx:errorCode) = 'BEA-380001'</con:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:replace varName="body" contents-only="true">
+                  <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d32</con:id>
+                  <con3:location>
+                    <con:xpathText>.</con:xpathText>
+                  </con3:location>
+                  <con3:expr>
+                    <con:xqueryText>&lt;soap-env:Fault>&lt;faultstring>{ concat('CREDIT_CARD_ERR_008',': ',$body/soap-env:Fault/faultstring) }&lt;/faultstring>&lt;/soap-env:Fault></con:xqueryText>
+                  </con3:expr>
+                </con3:replace>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d31</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;faultcode>soapenv:Client&lt;/faultcode></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+                <con3:insert varName="body">
+                  <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d30</con:id>
+                  <con3:location>
+                    <con:xpathText>./soap-env:Fault</con:xpathText>
+                  </con3:location>
+                  <con3:where>first-child</con3:where>
+                  <con3:expr>
+                    <con:xqueryText>&lt;detail>{ $body/soap-env:Fault/faultstring } &lt;/detail></con:xqueryText>
+                  </con3:expr>
+                </con3:insert>
+              </con3:actions>
+            </con3:case>
+            <con3:default>
+              <con3:replace varName="body" contents-only="true">
+                <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fda</con:id>
+                <con3:location>
+                  <con:xpathText>.</con:xpathText>
+                </con3:location>
+                <con3:expr>
+                  <con:xqueryText>&lt;soap-env:Fault>&lt;faultstring>{ concat('CREDITCARD_ERR_999: ',$fault/ctx:reason) }&lt;/faultstring>&lt;/soap-env:Fault></con:xqueryText>
+                </con3:expr>
+              </con3:replace>
+              <con3:insert varName="body">
+                <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fd9</con:id>
+                <con3:location>
+                  <con:xpathText>./soap-env:Fault</con:xpathText>
+                </con3:location>
+                <con3:where>first-child</con3:where>
+                <con3:expr>
+                  <con:xqueryText>&lt;faultcode>soapenv:Server&lt;/faultcode></con:xqueryText>
+                </con3:expr>
+              </con3:insert>
+              <con3:insert varName="body">
+                <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d2d</con:id>
+                <con3:location>
+                  <con:xpathText>./soap-env:Fault</con:xpathText>
+                </con3:location>
+                <con3:where>last-child</con3:where>
+                <con3:expr>
+                  <con:xqueryText>&lt;detail>{ $fault } &lt;/detail></con:xqueryText>
+                </con3:expr>
+              </con3:insert>
+            </con3:default>
+          </con3:ifThenElse>
+          <con3:replace varName="header" contents-only="true">
+            <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fd2</con:id>
+            <con3:location>
+              <con:xpathText>.</con:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con:xqueryText>&lt;m:RequestMode xmlns:m="http://mheducation.com/Common/01">{data($RequestMode)}&lt;/m:RequestMode></con:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con3:insert varName="header">
+            <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fd1</con:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText>&lt;m:EndTime xmlns:m="http://mheducation.com/Common/01">{data(fn:current-dateTime())}&lt;/m:EndTime></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con1:insert varName="header" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe6</con2:id>
+            <con1:where>first-child</con1:where>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:StartTime xmlns:m="http://mheducation.com/Common/01">{data($InputStartTime)}&lt;/m:StartTime></con:xqueryText>
+            </con1:expr>
+          </con1:insert>
+          <con3:insert varName="header" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe5</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:ESP_SERVICE_CLIENT xmlns:m="http://mheducation.com/Common/01">{data($InputServiceClient)}&lt;/m:ESP_SERVICE_CLIENT></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con3:insert varName="header" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe4</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:RequesterGUID xmlns:m="http://mheducation.com/Common/01">{data($InputReqGUID)}&lt;/m:RequesterGUID></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con3:insert varName="header" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe3</con4:id>
+            <con3:where>first-child</con3:where>
+            <con3:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;m:GUID xmlns:m="http://mheducation.com/Common/01">{data($GUID)}&lt;/m:GUID></con:xqueryText>
+            </con3:expr>
+          </con3:insert>
+          <con:reply isError="true">
+            <con:id>_ActionId-392531981810077828--1d0309e9.1273e6a767a.-7fe2</con:id>
+          </con:reply>
+        </con2:actions>
+      </con2:stage>
+    </con4:pipeline>
+    <con4:pipeline name="OrbitalPaymentPairNode_request" type="request">
+      <con:stage name="AssignCountryCode" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>OrderCountryCode is set in the input request and depending upon it the flag is set.</con:comment>
+        <con:context>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con2:assign varName="OrbitalPaymentechVar">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f63</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/OrbitalPaymentechConfig"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="safeTechConfig">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7788332452674509086-17150fa9.14c28043e82.-7fa6</con5:id>
+            <con2:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/SafeTechConfig"/>
+              </con:xqueryTransform>
+            </con2:expr>
+          </con2:assign>
+          <con2:ifThenElse>
+            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e84</con4:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/ns:CreditCardRequest/PaymentGateway)</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="OrderCountryFlag">
+                  <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e82</con4:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'1'</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+                <con2:ifThenElse>
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e7f</con5:id>
+                  <con2:case>
+                    <con2:condition>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/PaymentGateway)='PaymentTechUS' or data($body/ns:CreditCardRequest/PaymentGateway)='ClearCommerceUS'</con:xqueryText>
+                    </con2:condition>
+                    <con2:actions>
+                      <con2:replace varName="body" contents-only="false">
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e7e</con5:id>
+                        <con2:location>
+                          <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns:CreditCardRequest/PaymentGateway</con:xpathText>
+                        </con2:location>
+                        <con2:expr>
+                          <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;OrderCountryCode>US&lt;/OrderCountryCode></con:xqueryText>
+                        </con2:expr>
+                      </con2:replace>
+                    </con2:actions>
+                  </con2:case>
+                  <con2:case>
+                    <con2:condition>
+                      <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/PaymentGateway)='PaymentTechCA' or data($body/ns:CreditCardRequest/PaymentGateway)='ClearCommerceCA'</con:xqueryText>
+                    </con2:condition>
+                    <con2:actions>
+                      <con2:replace varName="body" contents-only="false">
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e7d</con5:id>
+                        <con2:location>
+                          <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns:CreditCardRequest/PaymentGateway</con:xpathText>
+                        </con2:location>
+                        <con2:expr>
+                          <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;OrderCountryCode>CA&lt;/OrderCountryCode></con:xqueryText>
+                        </con2:expr>
+                      </con2:replace>
+                    </con2:actions>
+                  </con2:case>
+                </con2:ifThenElse>
+              </con2:actions>
+            </con2:case>
+            <con2:default>
+              <con2:assign varName="OrderCountryFlag">
+                <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e81</con4:id>
+                <con2:expr>
+                  <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'0'</con:xqueryText>
+                </con2:expr>
+              </con2:assign>
+            </con2:default>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+      <con:stage name="AssignUsernamePassword" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Datacash service account username and password is assigned to the variables.</con:comment>
+        <con:context>
+          <con1:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+          <con1:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="Username" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f44</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/PaymentTechServiceAccount')), 'username>'),'&lt;/')</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="Password" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f43</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:substring-before(fn:substring-after(fn-bea:serialize(fn-bea:lookupBasicCredentials('MHEducation/CreditCardService/PaymentTechServiceAccount')), 'password>'),'&lt;/')</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con2:assign varName="ClientId">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f40</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">for $ClientId in $OrbitalPaymentechVar/ClientIds[@country=$creditCardRequest1/OrderCountryCode/text()]/ClientId
+where $ClientId/@wsName=data($inbound/ctx:security/ctx:messageLevelClient/ctx:username)
+return data($ClientId)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+        </con:actions>
+      </con:stage>
+      <con:stage name="InputTransformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Request is transformed to ClearCommerce supported input structure.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="ns3" namespace="http://mheducation.com/CreditCardServiceSEGHPISplit/V2_2/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="CCode" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eb6</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">for $Currency in $CommonDataMapVar/CurrencyList/Currency
+where $Currency/@name=$body/ns:CreditCardRequest/OrderDetails/Total/@CurrencyCode
+return data($Currency)</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con2:assign varName="CurrencyCode">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f4d</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns:CreditCardRequest/OrderDetails/Total/@CurrencyCode)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="TotalAmount">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f4e</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data( $body/ns:CreditCardRequest/OrderDetails/Total)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="wssecurityusername">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7e73</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($inbound/ctx:security/ctx:messageLevelClient/ctx:username)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="factor">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d4a</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">for $currency in $CommonDataMapVar/CurrencyList/Currency
+where data($currency/@name) = data($body/ns:CreditCardRequest/OrderDetails/Total/@CurrencyCode)
+return data($currency/@factor)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d49</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($factor) = 0</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:assign varName="factor">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d48</con5:id>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">'100'</con:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eb5</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/CreditCardRequest2PaymentTechPreAuth"/>
+                <con:param name="wssecurityusername">
+                  <con:path>$wssecurityusername</con:path>
+                </con:param>
+                <con:param name="orbitalPaymentechProperties">
+                  <con:path>$OrbitalPaymentechVar</con:path>
+                </con:param>
+                <con:param name="commonDataMapProperties">
+                  <con:path>$CommonDataMapVar</con:path>
+                </con:param>
+                <con:param name="safeTechConfig">
+                  <con:path>$safeTechConfig</con:path>
+                </con:param>
+                <con:param name="creditCardRequest1">
+                  <con:path>$body/ns:CreditCardRequest</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+          <con2:replace varName="body" contents-only="true">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d2b</con5:id>
+            <con2:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.//pay:retryTrace</con:xpathText>
+            </con2:location>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:replace(data($body//pay:retryTrace), '\s', '')</con:xqueryText>
+            </con2:expr>
+          </con2:replace>
+          <con2:replace varName="body" contents-only="true">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fbb</con5:id>
+            <con2:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.//pay:kaptchaSessionID</con:xpathText>
+            </con2:location>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:replace(data($body//pay:kaptchaSessionID), '\s', '')</con:xqueryText>
+            </con2:expr>
+          </con2:replace>
+          <con2:replace varName="body" contents-only="true">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-969818583112832271-4a099807.148c0e73f88.-7fef</con5:id>
+            <con2:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.//pay:pCardOrderID</con:xpathText>
+            </con2:location>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:replace(data($body//pay:pCardOrderID), '\s', '')</con:xqueryText>
+            </con2:expr>
+          </con2:replace>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7f58</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xsltTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/Xsl/RemoveEmptyNode"/>
+                <con:input>$body/pay:NewOrder</con:input>
+              </con:xsltTransform>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+      <con4:stage name="LogGatewayInput">
+        <con4:comment>Logs the request XML being sent to the payment gateway</con4:comment>
+        <con4:context>
+          <con:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway"/>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:assign varName="reqbody">
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eb0</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7e74</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:ccAccountNum</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d7c</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:ccExp</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d7b</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:ccCardVerifyPresenceInd</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d7a</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:ccCardVerifyNum</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d79</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:orbitalConnectionUsername</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:delete varName="body">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7d78</con:id>
+            <con2:location>
+              <con:xpathText>.//pay:orbitalConnectionPassword</con:xpathText>
+            </con2:location>
+          </con2:delete>
+          <con2:assign varName="LoggableMessage">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7e6f</con:id>
+            <con2:expr>
+              <con:xqueryText>$body</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con3:log>
+            <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7eae</con:id>
+            <con3:logLevel>error</con3:logLevel>
+            <con3:expr>
+              <con:xqueryText>$LoggableMessage</con:xqueryText>
+            </con3:expr>
+            <con3:message/>
+          </con3:log>
+          <con2:replace varName="body" contents-only="false">
+            <con:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7e70</con:id>
+            <con2:location>
+              <con:xpathText>.</con:xpathText>
+            </con2:location>
+            <con2:expr>
+              <con:xqueryText>$reqbody</con:xqueryText>
+            </con2:expr>
+          </con2:replace>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
+    <con4:pipeline name="OrbitalPaymentPairNode_response" type="response">
+      <con4:stage name="LogGatewayOutput">
+        <con:comment xmlns:con="http://www.bea.com/wli/sb/pipeline/config">Logs the response XML came from the payment gateway</con:comment>
+        <con:context xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+          <con5:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con5:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+          <con1:assign varName="LoggableMessage" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e7c</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$body</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:log xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e7a</con2:id>
+            <con1:logLevel>error</con1:logLevel>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$LoggableMessage</con:xqueryText>
+            </con1:expr>
+            <con1:message/>
+          </con1:log>
+        </con:actions>
+      </con4:stage>
+      <con4:stage name="TransactionReversal">
+        <con4:comment>1</con4:comment>
+        <con4:context>
+          <con:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway"/>
+          <con:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01"/>
+          <con:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01"/>
+          <con:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01"/>
+        </con4:context>
+        <con4:actions>
+          <con2:ifThenElse>
+            <con:id>_ActionId-7788332452674509086-17150fa9.14c28043e82.-7fac</con:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText>(data($body/pay:NewOrderResponse/pay:return/pay:approvalStatus)='1') and (data($body/pay:NewOrderResponse/pay:return/pay:fraudAnalysisResponse/pay:autoDecisionResponse)='D')</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con3:log>
+                  <con:id>_ActionId-2115338781143977964-670641f7.14db3547aac.-7fba</con:id>
+                  <con3:logLevel>info</con3:logLevel>
+                  <con3:expr>
+                    <con:xqueryText>$body/pay:NewOrderResponse</con:xqueryText>
+                  </con3:expr>
+                  <con3:message>Safetech returned Decline Response</con3:message>
+                </con3:log>
+                <con5:alert xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config">
+                  <con:id>_ActionId-2115338781143977964-670641f7.14db3547aac.-7fb9</con:id>
+                  <con5:destination ref="MHEducation/CreditCardService/AlertDestination"/>
+                  <con5:description>Safetech returned Decline Response</con5:description>
+                  <con5:severity>normal</con5:severity>
+                  <con5:payload>
+                    <con:xqueryText>$body/pay:NewOrderResponse</con:xqueryText>
+                  </con5:payload>
+                </con5:alert>
+                <con2:assign varName="ReversalRequest">
+                  <con:id>_ActionId-7788332452674509086-17150fa9.14c28043e82.-7fab</con:id>
+                  <con2:expr>
+                    <con:xqueryTransform>
+                      <con:resource ref="MHEducation/CreditCardService/XQuery/NewOrderResponse2ReversalRequest"/>
+                      <con:param name="refundAmount">
+                        <con:path>$TotalAmount</con:path>
+                      </con:param>
+                      <con:param name="newOrderResponse">
+                        <con:path>$body/pay:NewOrderResponse</con:path>
+                      </con:param>
+                    </con:xqueryTransform>
+                  </con2:expr>
+                </con2:assign>
+                <con2:wsCallout>
+                  <con:id>_ActionId-2115338781143977964-670641f7.14db3547aac.-7fdb</con:id>
+                  <con2:service ref="MHEducation/CreditCardService/MHESafeTechReversalBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con2:request>
+                    <con2:payload wrapped="false">$ReversalRequest</con2:payload>
+                  </con2:request>
+                  <con2:response>
+                    <con2:payload wrapped="false">ReversalResponse</con2:payload>
+                  </con2:response>
+                  <con2:requestTransform/>
+                  <con2:responseTransform/>
+                </con2:wsCallout>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+        </con4:actions>
+      </con4:stage>
+      <con:stage name="OutputTransformation" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+        <con:comment>Response from ClearCommerce is transformed to Service supported response structure.</con:comment>
+        <con:context>
+          <con5:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+          <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7d4e</con2:id>
+            <con1:location>
+              <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">.</con:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="MHEducation/CreditCardService/XQuery/NewOrderResponse2CreditCardResponse"/>
+                <con:param name="TotalCurrency">
+                  <con:path>$TotalAmount</con:path>
+                </con:param>
+                <con:param name="newOrderResponse">
+                  <con:path>$body/pay:NewOrderResponse</con:path>
+                </con:param>
+                <con:param name="CCode">
+                  <con:path>$CurrencyCode</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+          <con2:assign varName="EndTime">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3252469223760832928--4625f315.148ef7a161c.-7fc7</con5:id>
+            <con2:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/ns2:CreditCardResponse/PaymentGatewayInfo/EndTime)</con:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3252469223760832928--4625f315.148ef7a161c.-7fc6</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:string-length($EndTime) !=0</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:replace varName="body" contents-only="true">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3252469223760832928--4625f315.148ef7a161c.-7fc5</con5:id>
+                  <con2:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns2:CreditCardResponse/PaymentGatewayInfo/EndTime</con:xpathText>
+                  </con2:location>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:concat(fn:concat(fn:substring($EndTime, 1, 4), '-'), fn:concat(fn:substring($EndTime, 5, 2), '-'), fn:substring($EndTime, 7, 2), 'T', fn:concat(fn:substring($EndTime, 9, 2), ':'), fn:concat(fn:substring($EndTime, 11, 2), ':'), fn:substring($EndTime, 13, 2))</con:xqueryText>
+                  </con2:expr>
+                </con2:replace>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e63</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($OrderCountryFlag)='0'</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:insert varName="body">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e62</con5:id>
+                  <con2:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns2:CreditCardResponse</con:xpathText>
+                  </con2:location>
+                  <con2:where>first-child</con2:where>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;OrderCountryCode>{data($OrderCountryVar)}&lt;/OrderCountryCode></con:xqueryText>
+                  </con2:expr>
+                </con2:insert>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+          <con2:ifThenElse>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-2356380809329758615--33a68f74.149bfc6e286.-7fef</con5:id>
+            <con2:case>
+              <con2:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:upper-case(data($wssecurityusername)) = 'PARIS'</con:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:insert varName="body">
+                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-2356380809329758615--33a68f74.149bfc6e286.-7fee</con5:id>
+                  <con2:location>
+                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./ns2:CreditCardResponse/PaymentGatewayInfo</con:xpathText>
+                  </con2:location>
+                  <con2:where>first-child</con2:where>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">&lt;PaymentGateway>{fn:concat('ClearCommerce', $OrderCountryVar)}&lt;/PaymentGateway></con:xqueryText>
+                  </con2:expr>
+                </con2:insert>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+    </con4:pipeline>
+    <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:pipeline-node name="PipelinePairNode">
+        <con:comment/>
+        <con:request>PipelinePairNode_request</con:request>
+        <con:response>PipelinePairNode_response</con:response>
+      </con:pipeline-node>
+      <con:branch-node type="condition" name="BranchNode1">
+        <con:branch-table variable="PaymentGateway">
+          <con:branch name="OrbitalPaymentTech">
+            <con:operator>equals</con:operator>
+            <con:value>'PaymentTech'</con:value>
+            <con:flow>
+              <con:pipeline-node name="OrbitalPaymentPairNode">
+                <con:comment/>
+                <con:request>OrbitalPaymentPairNode_request</con:request>
+                <con:response>OrbitalPaymentPairNode_response</con:response>
+              </con:pipeline-node>
+              <con5:route-node name="RouteToBusinessService" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+                <con5:comment/>
+                <con5:context/>
+                <con5:actions>
+                  <con3:route>
+                    <con2:id>_ActionId-1800030251080586697--1e92a473.147f7a6cbf1.-7e75</con2:id>
+                    <con3:service ref="MHEducation/CreditCardService/MHEPaymentTechGatewayBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con3:operation>NewOrder</con3:operation>
+                    <con3:outboundTransform/>
+                    <con3:responseTransform/>
+                  </con3:route>
+                </con5:actions>
+              </con5:route-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="Datacash">
+            <con:operator>equals</con:operator>
+            <con:value>'Datacash'</con:value>
+            <con:flow>
+              <con:pipeline-node name="PipelinePairNodeDatacash">
+                <con:comment/>
+                <con:request>PipelinePairNodeDatacash_request</con:request>
+                <con:response>PipelinePairNodeDatacash_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="MHEDatacashBusinessService">
+                <con:comment>Request is routed to Datacash business service.</con:comment>
+                <con:context>
+                  <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                  <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                  <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                  <con1:route xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config">
+                    <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3d</con2:id>
+                    <con1:service ref="MHEducation/CreditCardService/MHECreditCardDataCashBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con1:outboundTransform>
+                      <con3:log xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/services/security/config">
+                        <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3c</con:id>
+                        <con3:logLevel>info</con3:logLevel>
+                        <con3:expr>
+                          <con:xqueryText>fn:concat('Routing request to Datacash Gateway ', 'with GUID as ', $GUID, ' at ', fn:current-dateTime())</con:xqueryText>
+                        </con3:expr>
+                        <con3:message/>
+                      </con3:log>
+                    </con1:outboundTransform>
+                    <con1:responseTransform>
+                      <con3:log xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/services/security/config">
+                        <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e3b</con:id>
+                        <con3:logLevel>info</con3:logLevel>
+                        <con3:expr>
+                          <con:xqueryText>fn:concat('Routing response from Datacash Payment Gateway', ' with GUID as ' , $GUID, ' at ',fn:current-dateTime())</con:xqueryText>
+                        </con3:expr>
+                        <con3:message/>
+                      </con3:log>
+                    </con1:responseTransform>
+                  </con1:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="SecurePay">
+            <con:operator>equals</con:operator>
+            <con:value>'SecurePay'</con:value>
+            <con:flow>
+              <con:pipeline-node name="PipelinePairNodeSecurePay">
+                <con:comment/>
+                <con:request>PipelinePairNodeSecurePay_request</con:request>
+                <con:response>PipelinePairNodeSecurePay_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="MHECreditCardSecurePayBusinessService">
+                <con:comment>Request is routed to SecurePay business service.</con:comment>
+                <con:context>
+                  <con4:varNsDecl prefix="ns2" namespace="http://mheducation.com/CreditCardService/CreditCardResponse/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                  <con4:varNsDecl prefix="ns1" namespace="http://mheducation.com/Common/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                  <con4:varNsDecl prefix="ns" namespace="http://mheducation.com/CreditCardService/CreditCardRequest/01" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                  <con1:route xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config">
+                    <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2d</con2:id>
+                    <con1:service ref="MHEducation/CreditCardService/MHECreditCardSecurePayBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con1:outboundTransform>
+                      <con3:log xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/services/security/config">
+                        <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2c</con:id>
+                        <con3:logLevel>info</con3:logLevel>
+                        <con3:expr>
+                          <con:xqueryText>fn:concat('Routing request to SecurePay Gateway ', 'with GUID as ', $GUID, ' at ', fn:current-dateTime())</con:xqueryText>
+                        </con3:expr>
+                        <con3:message/>
+                      </con3:log>
+                    </con1:outboundTransform>
+                    <con1:responseTransform>
+                      <con3:log xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/services/security/config">
+                        <con:id>_ActionId-5764176723010062944-5220f21f.13c49167da5.-7e2b</con:id>
+                        <con3:logLevel>info</con3:logLevel>
+                        <con3:expr>
+                          <con:xqueryText>fn:concat('Routing response from SecurePay Payment Gateway', ' with GUID as ' , $GUID, ' at ',fn:current-dateTime())</con:xqueryText>
+                        </con3:expr>
+                        <con3:message/>
+                      </con3:log>
+                    </con1:responseTransform>
+                  </con1:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:default-branch>
+            <con:flow>
+              <con:pipeline-node name="PipelinePairNode1">
+                <con:request>PipelinePairNode1_request</con:request>
+                <con:response>PipelinePairNode1_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:default-branch>
+        </con:branch-table>
+      </con:branch-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

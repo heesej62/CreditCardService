@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment>
+  <ser:coreEntry isProxy="true" isEnabled="true" isAutoPublish="false" isTracingEnabled="false" xmlns:ser="http://www.bea.com/wli/sb/services">
+    <ser:description/>
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:transactions isRequired="false" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig xmlns:ser="http://www.bea.com/wli/sb/services">
+    <tran:provider-id xmlns:tran="http://www.bea.com/wli/sb/transports">jms</tran:provider-id>
+    <tran:inbound xmlns:tran="http://www.bea.com/wli/sb/transports">true</tran:inbound>
+    <tran:URI xmlns:tran="http://www.bea.com/wli/sb/transports">
+      <env:value xmlns:env="http://www.bea.com/wli/config/env">jms://ew1gtbu5342.soa.mheducation.com:8002,ew1gtbu5342.soa.mheducation.com:8004,ew1gtbu5342.soa.mheducation.com:8006/mheJMSConnectionFactory/queue.creditcard.ProcessQueue</env:value>
+    </tran:URI>
+    <tran:inbound-properties xmlns:tran="http://www.bea.com/wli/sb/transports"/>
+    <tran:all-headers xmlns:tran="http://www.bea.com/wli/sb/transports">false</tran:all-headers>
+    <tran:provider-specific xsi:type="jms:JmsEndPointConfiguration" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+        <jms:transaction-timeout>600</jms:transaction-timeout>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-2115338781143977964-670641f7.14db3547aac.-7fcd" xmlns:ser="http://www.bea.com/wli/sb/services">
+    <con:pipeline name="PipelinePairNode1_request" type="request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="Assign Variable">
+        <con:comment/>
+        <con:context>
+          <con1:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="ReversalRequest" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fd8</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$body/pay:Reversal</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="transactionId" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fbe</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($body/pay:Reversal/pay:reversalRequest/pay:txRefNum)</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline name="PipelinePairNode1_response" type="response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="CheckReversalFailure">
+        <con:comment/>
+        <con:context>
+          <con1:userNsDecl prefix="pay" namespace="urn:ws.paymentech.net/PaymentechGateway" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="ReversalResponse" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fd0</con2:id>
+            <con1:expr>
+              <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$body</con:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fd3</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($ReversalResponse/pay:return/pay:approvalStatus) != '1'</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con1:wsCallout>
+                  <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fd2</con2:id>
+                  <con1:service ref="MHEducation/CreditCardService/MHESafeTechReversalErrorBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <con1:request>
+                    <con1:payload wrapped="false">$ReversalRequest</con1:payload>
+                  </con1:request>
+                  <con1:response>
+                    <con1:payload wrapped="false">response</con1:payload>
+                  </con1:response>
+                  <con1:requestTransform/>
+                  <con1:responseTransform/>
+                </con1:wsCallout>
+              </con1:actions>
+            </con1:case>
+          </con1:ifThenElse>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline name="_onErrorHandler-2115338781143977964-670641f7.14db3547aac.-7fcd" type="error" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="Error Handler">
+        <con:context/>
+        <con:actions>
+          <con1:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fc8</con2:id>
+            <con1:case>
+              <con1:condition>
+                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">data($inbound/ctx:transport/ctx:request/tp:headers/jms:JMSXDeliveryCount) > 9</con:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con2:alert xmlns:con2="http://www.bea.com/wli/sb/stages/alert/config">
+                  <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fc7</con3:id>
+                  <con2:destination ref="MHEducation/CreditCardService/AlertDestination"/>
+                  <con2:description>Reversal Failure</con2:description>
+                  <con2:severity>normal</con2:severity>
+                  <con2:payload>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:concat(" Credit Card Reversal Failure for Transaction Id:", $transactionId,"
+","
+","
+" ,"Request Payload : ", "
+" , fn-bea:serialize($body),"
+","
+","
+" ,"Reason of the error is : ","
+", fn-bea:serialize($fault))</con:xqueryText>
+                  </con2:payload>
+                </con2:alert>
+              </con1:actions>
+            </con1:case>
+          </con1:ifThenElse>
+          <con1:reply isError="false" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+            <con1:id>_ActionId-2115338781143977964-670641f7.14db3547aac.-7fcc</con1:id>
+          </con1:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:pipeline-node name="PipelinePairNode1">
+        <con:request>PipelinePairNode1_request</con:request>
+        <con:response>PipelinePairNode1_response</con:response>
+      </con:pipeline-node>
+      <con:route-node name="RouteNode1">
+        <con:actions>
+          <con1:route xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2115338781143977964-670641f7.14db3547aac.-7fd1</con2:id>
+            <con1:service ref="MHEducation/CreditCardService/MHEPaymentTechGatewayBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <con1:operation>Reversal</con1:operation>
+            <con1:outboundTransform/>
+            <con1:responseTransform/>
+          </con1:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
